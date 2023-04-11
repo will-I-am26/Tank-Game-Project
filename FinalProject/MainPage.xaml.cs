@@ -34,5 +34,7 @@ namespace FinalProject
             args.DrawingSession.DrawEllipse(155, 115, 80, 30, Colors.Black, 3);
             args.DrawingSession.DrawText("Hello, world!", 100, 100, Colors.Yellow);
         }
+
+        //This is test how branching and merging work
     }
 }
