@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,13 +33,17 @@ namespace FinalProject
 
         private CanvasBitmap downImage;
 
+        private CanvasBitmap bulletImage;
+
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
 
         public bool TravelingUpward { get; set; }
         public bool TravelingRightward { get; set; }
 
-        public Tank(int x, int y, int speed, CanvasBitmap image, CanvasBitmap leftImage, CanvasBitmap rightImage, CanvasBitmap upImage, CanvasBitmap downImage)
+        public Ball bullet;
+
+        public Tank(int x, int y, int speed, CanvasBitmap image, CanvasBitmap leftImage, CanvasBitmap rightImage, CanvasBitmap upImage, CanvasBitmap downImage, CanvasBitmap bulletImage)
         {
             X = x;
             Y = y;
@@ -47,11 +52,13 @@ namespace FinalProject
             this.rightImage = rightImage;
             this.upImage = upImage;
             this.downImage = downImage;
+            this.bulletImage = bulletImage;
             Speed = speed;
             TravelingDownward = false;
             TravelingLeftward = false;
             TravelingRightward = false;
             TravelingUpward= false;
+     
         }
 
         public void Update()
@@ -87,6 +94,29 @@ namespace FinalProject
 
         }
 
+        public void shootBullet()
+        {
+            bullet = new Ball(X, Y, 20, bulletImage);
+            if (image == leftImage)
+            {
+                bullet.TravelingLeftward = true;
+            }
+            else
+            {
+                bullet.TravelingLeftward = false;
+            }
+
+            if(image == downImage)
+            {
+                bullet.TravelingDownward = true;
+            }
+            else
+            {
+                bullet.TravelingDownward = false;
+            }
+            bullet.Update();
+        }
+
     }
 
     public interface IDrawable
@@ -94,67 +124,66 @@ namespace FinalProject
         void Draw(CanvasDrawingSession canvas);
     }
 
-    /*
-    public class tankGame
+     public class Ball : IDrawable
     {
-        private Tank tank;
-        private List<Tank> drawables;
-        private Gamepad controller;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Radius { get; set; }
 
-        public tankGame(CanvasBitmap tankimage)
+        public int Speed { get; set; }
+
+        public Color Color { get; set; }
+        public bool TravelingDownward { get; set; }
+        public bool TravelingLeftward { get; set; }
+
+        private CanvasBitmap image;
+
+        public Ball(int x, int y, int radius, CanvasBitmap image)
         {
-            
-
-            drawables = new List<Tank>();
-
-            tank = new Tank(100, 100, 5, tankimage);
-
-        }
-
-        public void goingUp(bool TravelingUpward)
-        {
-            tank.TravelingUpward = TravelingUpward;
-        }
-
-        public void goingDown(bool TravelingDownward)
-        {
-            tank.TravelingDownward = TravelingDownward;
-        }
-
-        public void goingLeft(bool TravelingLeftward)
-        {
-            tank.TravelingLeftward = TravelingLeftward;
-        }
-
-        public void goingRight(bool TravelingRightward)
-        {
-            tank.TravelingRightward = TravelingRightward;
+            X = x;
+            Y = y;
+            Radius = radius;
+            this.image = image;
+            Speed = 1;
+            ChangeColorRandomly();
         }
 
         public void Update()
         {
-            if (Gamepad.Gamepads.Count > 0)
+            if (TravelingDownward)
             {
-                controller = Gamepad.Gamepads.First();
-                var reading = controller.GetCurrentReading();
-                tank.X += (int)(reading.LeftThumbstickX * 5);
-                tank.Y += (int)(reading.LeftThumbstickY * -5);
+                Y += Speed;
             }
-
-            tank.Update();
+            else
+            {
+                Y -= Speed;
+            }
+            if (TravelingLeftward)
+            {
+                X -= Speed;
+            }
+            else
+            {
+                X += Speed;
+            }
         }
 
-        public void DrawGame(CanvasDrawingSession canvas)
+        public void ChangeColorRandomly()
         {
-            foreach (var drawable in drawables)
-            {
-                drawable.Draw(canvas);
-            }
+            Random random = new Random();
+            Color = Color.FromArgb(255, (byte)random.Next(0, 256), (byte)random.Next(0, 256), (byte)random.Next(0, 256));
         }
 
+        public void Draw(CanvasDrawingSession canvas)
+        {
+            // when using image, account for x and y being top left
+            canvas.DrawImage(image, X, Y);
 
+            // when using ellipse, account for x and y being the center
+
+            //canvas.FillEllipse(X, Y, Radius, Radius, Color);
+        }
     }
-    */
 
 
 }

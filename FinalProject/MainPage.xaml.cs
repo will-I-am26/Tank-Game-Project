@@ -48,17 +48,21 @@ namespace FinalProject
         private CanvasBitmap tankimage2;
         private CanvasBitmap tankimage3;
         private CanvasBitmap tankimage4;
+        private CanvasBitmap ballImage;
+        Ball bullet;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             tank.Draw(args.DrawingSession);
             tank2.Draw(args.DrawingSession);
+            bullet.Draw(args.DrawingSession);
         }
 
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             tank.Update();
             tank2.Update();
+            bullet.Update();
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -71,8 +75,11 @@ namespace FinalProject
             tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankLeft.png");
             tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankUp.png");
             tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankDown.png");
-            tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
-            tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
+            ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
+
+            tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4, ballImage);
+            tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4, ballImage);
+            bullet = new Ball(tank.X, tank.Y, 20, ballImage);
         }
     
 
@@ -109,6 +116,9 @@ namespace FinalProject
             else if (e.VirtualKey == Windows.System.VirtualKey.A)
             {
                 tank2.TravelingLeftward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Space)
+            {
             }
         }
 
