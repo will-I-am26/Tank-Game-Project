@@ -2,11 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Gaming.Input;
 using Windows.UI;
 using Windows.UI.Input;
 using Windows.UI.Input.Inking;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace FinalProject
 {
@@ -61,6 +66,7 @@ namespace FinalProject
         {
             // when using image, account for x and y being top left
             canvas.DrawImage(image, X, Y);
+
         }
 
     }
