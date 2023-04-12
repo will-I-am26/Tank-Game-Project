@@ -30,7 +30,10 @@ namespace FinalProject
     /// </summary>
     public sealed partial class MainPage : Page
     {
-
+        void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        {
+         
+        }
         public MainPage()
         {
             this.InitializeComponent();
@@ -39,59 +42,16 @@ namespace FinalProject
             Window.Current.CoreWindow.KeyUp += Canvas_KeyUp;
         }
 
-        tankGame tankgame;
+        Tank tank;
         private CanvasBitmap tankimage;
-
-
-
-        private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
-        {
-            if (e.VirtualKey == Windows.System.VirtualKey.Left)
-            {
-                tankgame.goingLeft(true);
-            }
-            else if (e.VirtualKey == Windows.System.VirtualKey.Right)
-            {
-                tankgame.goingRight(true);
-            }
-            else if (e.VirtualKey == Windows.System.VirtualKey.Up)
-            {
-                tankgame.goingUp(true);
-            }
-            else if (e.VirtualKey == Windows.System.VirtualKey.Down)
-            {
-                tankgame.goingDown(true);
-            }
-        }
-
-        private void Canvas_KeyUp(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
-        {
-            if (e.VirtualKey == Windows.System.VirtualKey.Left)
-            {
-                tankgame.goingLeft(false);
-            }
-            else if (e.VirtualKey == Windows.System.VirtualKey.Right)
-            {
-                tankgame.goingRight(false);
-            }
-            else if (e.VirtualKey == Windows.System.VirtualKey.Up)
-            {
-                tankgame.goingUp(false);
-            }
-            else if (e.VirtualKey == Windows.System.VirtualKey.Down)
-            {
-                tankgame.goingDown(false);
-            }
-        }
-
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            tankgame.DrawGame(args.DrawingSession);
+            tank.Draw(args.DrawingSession);
         }
 
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            tankgame.Update();
+            tank.Update();
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -100,10 +60,53 @@ namespace FinalProject
 
         async Task CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender)
         {
-            tankimage = await CanvasBitmap.LoadAsync(sender, "tank.jpg");
-            tankgame = new tankGame(tankimage);
+            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/demoTank.png");
+            tank = new Tank(50,50,20,tankimage);
         }
 
-        //This is test how branching and merging work
+
+
+        
+        private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
+        {
+            if (e.VirtualKey == Windows.System.VirtualKey.Left)
+            {
+                tank.TravelingLeftward= true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Right)
+            {
+                tank.TravelingRightward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Up)
+            {
+                tank.TravelingUpward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Down)
+            {
+                tank.TravelingDownward = true;
+            }
+        }
+
+        private void Canvas_KeyUp(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
+        {
+            if (e.VirtualKey == Windows.System.VirtualKey.Left)
+            {
+                tank.TravelingLeftward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Right)
+            {
+                tank.TravelingRightward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Up)
+            {
+                tank.TravelingUpward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Down)
+            {
+                tank.TravelingDownward = false;
+            }
+        }
+
+        
     }
 }

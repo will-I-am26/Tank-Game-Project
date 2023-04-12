@@ -41,11 +41,11 @@ namespace FinalProject
         {
             if (TravelingDownward)
             {
-                Y -= Speed;
+                Y += Speed;
             }
             if(TravelingUpward)
             {
-                Y += Speed;
+                Y -= Speed;
             }
             if (TravelingLeftward)
             {
@@ -73,14 +73,14 @@ namespace FinalProject
     public class tankGame
     {
         private Tank tank;
-        private List<IDrawable> drawables;
+        private List<Tank> drawables;
         private Gamepad controller;
 
         public tankGame(CanvasBitmap tankimage)
         {
             
 
-            drawables = new List<IDrawable>();
+            drawables = new List<Tank>();
 
             tank = new Tank(100, 100, 5, tankimage);
 
