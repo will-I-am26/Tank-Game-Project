@@ -46,6 +46,8 @@ namespace FinalProject
         Tank tank2;
         private CanvasBitmap tankimage;
         private CanvasBitmap tankimage2;
+        private CanvasBitmap tankimage3;
+        private CanvasBitmap tankimage4;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
@@ -67,12 +69,12 @@ namespace FinalProject
         {
             tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankRight.png");
             tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankLeft.png");
-            tank = new Tank(50,300,5,tankimage);
-            tank2 = new Tank(1000, 300, 5, tankimage2);
+            tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankUp.png");
+            tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankDown.png");
+            tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
+            tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
         }
     
-
-
 
         private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
         {

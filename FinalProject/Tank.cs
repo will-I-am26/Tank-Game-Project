@@ -24,17 +24,29 @@ namespace FinalProject
 
         private CanvasBitmap image;
 
+        private CanvasBitmap leftImage;
+
+        private CanvasBitmap rightImage;
+
+        private CanvasBitmap upImage;
+
+        private CanvasBitmap downImage;
+
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
 
         public bool TravelingUpward { get; set; }
         public bool TravelingRightward { get; set; }
 
-        public Tank(int x, int y, int speed, CanvasBitmap image)
+        public Tank(int x, int y, int speed, CanvasBitmap image, CanvasBitmap leftImage, CanvasBitmap rightImage, CanvasBitmap upImage, CanvasBitmap downImage)
         {
             X = x;
             Y = y;
             this.image = image;
+            this.leftImage = leftImage;
+            this.rightImage = rightImage;
+            this.upImage = upImage;
+            this.downImage = downImage;
             Speed = speed;
             TravelingDownward = false;
             TravelingLeftward = false;
@@ -44,22 +56,28 @@ namespace FinalProject
 
         public void Update()
         {
+
             if (TravelingDownward)
             {
                 Y += Speed;
+                image = downImage;
             }
             if(TravelingUpward)
             {
                 Y -= Speed;
+                image = upImage;
             }
             if (TravelingLeftward)
             {
                 X -= Speed;
+                image = leftImage;
             }
             if (TravelingRightward)
             {
                 X += Speed;
+                image = rightImage;
             }
+
         }
 
         public void Draw(CanvasDrawingSession canvas)
@@ -76,6 +94,7 @@ namespace FinalProject
         void Draw(CanvasDrawingSession canvas);
     }
 
+    /*
     public class tankGame
     {
         private Tank tank;
@@ -135,7 +154,7 @@ namespace FinalProject
 
 
     }
-
+    */
 
 
 }
