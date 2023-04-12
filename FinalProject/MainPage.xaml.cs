@@ -43,15 +43,20 @@ namespace FinalProject
         }
 
         Tank tank;
+        Tank tank2;
         private CanvasBitmap tankimage;
+        private CanvasBitmap tankimage2;
+
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             tank.Draw(args.DrawingSession);
+            tank2.Draw(args.DrawingSession);
         }
 
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             tank.Update();
+            tank2.Update();
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -60,13 +65,15 @@ namespace FinalProject
 
         async Task CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender)
         {
-            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/demoTank.png");
-            tank = new Tank(50,50,20,tankimage);
+            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankRight.png");
+            tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankLeft.png");
+            tank = new Tank(50,300,5,tankimage);
+            tank2 = new Tank(1000, 300, 5, tankimage2);
         }
+    
 
 
 
-        
         private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
         {
             if (e.VirtualKey == Windows.System.VirtualKey.Left)
@@ -84,6 +91,22 @@ namespace FinalProject
             else if (e.VirtualKey == Windows.System.VirtualKey.Down)
             {
                 tank.TravelingDownward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.D)
+            {
+                tank2.TravelingRightward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.W)
+            {
+                tank2.TravelingUpward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.S)
+            {
+                tank2.TravelingDownward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.A)
+            {
+                tank2.TravelingLeftward = true;
             }
         }
 
@@ -104,6 +127,22 @@ namespace FinalProject
             else if (e.VirtualKey == Windows.System.VirtualKey.Down)
             {
                 tank.TravelingDownward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.D)
+            {
+                tank2.TravelingRightward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.W)
+            {
+                tank2.TravelingUpward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.S)
+            {
+                tank2.TravelingDownward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.A)
+            {
+                tank2.TravelingLeftward = false;
             }
         }
 
