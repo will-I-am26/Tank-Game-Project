@@ -32,7 +32,7 @@ namespace FinalProject
     {
         void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-         
+            
         }
         public MainPage()
         {
@@ -119,46 +119,55 @@ namespace FinalProject
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Space)
             {
-
-                if (tank.image == tankimage4)
+                if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
                 {
-                    bullet.X = tank.X + 60;
-                    bullet.Y = tank.Y + 100;
+                    if (tank.image == tankimage4)
+                    {
+                        bullet.X = tank.X + 60;
+                        bullet.Y = tank.Y + 100;
 
-                    bullet.TravelingDownward = true;
-                    bullet.TravelingLeftward = false;
-                    bullet.TravelingUpward = false;
-                    bullet.TravelingRightward = false;
-                }
-                if (tank.image == tankimage2)
-                {
-                    bullet.X = tank.X + 15;
-                    bullet.Y = tank.Y + 60;
+                        bullet.TravelingDownward = true;
+                        bullet.TravelingLeftward = false;
+                        bullet.TravelingUpward = false;
+                        bullet.TravelingRightward = false;
+                    }
+                    if (tank.image == tankimage2)
+                    {
+                        bullet.X = tank.X + 15;
+                        bullet.Y = tank.Y + 60;
 
-                    bullet.TravelingLeftward = true;
-                    bullet.TravelingDownward = false;
-                    bullet.TravelingUpward = false;
-                    bullet.TravelingRightward = false;
-                }
-                if (tank.image == tankimage3)
-                {
-                    bullet.X = tank.X + 60;
-                    bullet.Y = tank.Y + 15;
+                        bullet.TravelingLeftward = true;
+                        bullet.TravelingDownward = false;
+                        bullet.TravelingUpward = false;
+                        bullet.TravelingRightward = false;
 
-                    bullet.TravelingUpward = true;
-                    bullet.TravelingRightward = false;
-                    bullet.TravelingLeftward = false;
-                    bullet.TravelingDownward = false;
+
+                    }
+                    if (tank.image == tankimage3)
+                    {
+                        bullet.X = tank.X + 60;
+                        bullet.Y = tank.Y + 15;
+
+                        bullet.TravelingUpward = true;
+                        bullet.TravelingRightward = false;
+                        bullet.TravelingLeftward = false;
+                        bullet.TravelingDownward = false;
+
+
+                    }
+                    if (tank.image == tankimage)
+                    {
+                        bullet.X = tank.X + 100;
+                        bullet.Y = tank.Y + 60;
+                        bullet.TravelingRightward = true;
+                        bullet.TravelingLeftward = false;
+                        bullet.TravelingDownward = false;
+                        bullet.TravelingUpward = false;
+
+
+                    }
                 }
-                if (tank.image == tankimage)
-                {
-                    bullet.X = tank.X + 100;
-                    bullet.Y = tank.Y + 60;
-                    bullet.TravelingRightward = true;
-                    bullet.TravelingLeftward = false;
-                    bullet.TravelingDownward = false;
-                    bullet.TravelingUpward = false;
-                }
+               
             }
         }
 
@@ -198,34 +207,7 @@ namespace FinalProject
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Space)
             {
-                if (tank.image == tankimage4)
-                {
-                    bullet.TravelingDownward = true;
-                    bullet.TravelingLeftward = false;
-                    bullet.TravelingUpward = false;
-                    bullet.TravelingRightward = false;
-                }
-                if (tank.image == tankimage2)
-                {
-                    bullet.TravelingLeftward = true;
-                    bullet.TravelingDownward = false;
-                    bullet.TravelingUpward = false;
-                    bullet.TravelingRightward = false;
-                }
-                if (tank.image == tankimage3)
-                {
-                    bullet.TravelingUpward = true;
-                    bullet.TravelingRightward = false;
-                    bullet.TravelingLeftward = false;
-                    bullet.TravelingDownward = false;
-                }
-                if (tank.image == tankimage)
-                {
-                    bullet.TravelingRightward = true;
-                    bullet.TravelingLeftward = false;
-                    bullet.TravelingDownward = false;
-                    bullet.TravelingUpward = false;
-                }
+              
             }
         }
 
