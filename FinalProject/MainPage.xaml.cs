@@ -48,17 +48,21 @@ namespace FinalProject
         private CanvasBitmap tankimage2;
         private CanvasBitmap tankimage3;
         private CanvasBitmap tankimage4;
+        private CanvasBitmap ballImage;
+        Ball bullet;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             tank.Draw(args.DrawingSession);
             tank2.Draw(args.DrawingSession);
+            bullet.Draw(args.DrawingSession);
         }
 
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             tank.Update();
             tank2.Update();
+            bullet.Update();
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -71,8 +75,11 @@ namespace FinalProject
             tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankLeft.png");
             tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankUp.png");
             tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankDown.png");
+            ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
+
             tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
+            bullet = new Ball(1920, tank.Y, 10, ballImage);
         }
     
 
@@ -80,7 +87,7 @@ namespace FinalProject
         {
             if (e.VirtualKey == Windows.System.VirtualKey.Left)
             {
-                tank.TravelingLeftward= true;
+                tank.TravelingLeftward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Right)
             {
@@ -109,6 +116,49 @@ namespace FinalProject
             else if (e.VirtualKey == Windows.System.VirtualKey.A)
             {
                 tank2.TravelingLeftward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Space)
+            {
+
+                if (tank.image == tankimage4)
+                {
+                    bullet.X = tank.X + 60;
+                    bullet.Y = tank.Y + 100;
+
+                    bullet.TravelingDownward = true;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingUpward = false;
+                    bullet.TravelingRightward = false;
+                }
+                if (tank.image == tankimage2)
+                {
+                    bullet.X = tank.X + 15;
+                    bullet.Y = tank.Y + 60;
+
+                    bullet.TravelingLeftward = true;
+                    bullet.TravelingDownward = false;
+                    bullet.TravelingUpward = false;
+                    bullet.TravelingRightward = false;
+                }
+                if (tank.image == tankimage3)
+                {
+                    bullet.X = tank.X + 60;
+                    bullet.Y = tank.Y + 15;
+
+                    bullet.TravelingUpward = true;
+                    bullet.TravelingRightward = false;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingDownward = false;
+                }
+                if (tank.image == tankimage)
+                {
+                    bullet.X = tank.X + 100;
+                    bullet.Y = tank.Y + 60;
+                    bullet.TravelingRightward = true;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingDownward = false;
+                    bullet.TravelingUpward = false;
+                }
             }
         }
 
@@ -145,6 +195,37 @@ namespace FinalProject
             else if (e.VirtualKey == Windows.System.VirtualKey.A)
             {
                 tank2.TravelingLeftward = false;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.Space)
+            {
+                if (tank.image == tankimage4)
+                {
+                    bullet.TravelingDownward = true;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingUpward = false;
+                    bullet.TravelingRightward = false;
+                }
+                if (tank.image == tankimage2)
+                {
+                    bullet.TravelingLeftward = true;
+                    bullet.TravelingDownward = false;
+                    bullet.TravelingUpward = false;
+                    bullet.TravelingRightward = false;
+                }
+                if (tank.image == tankimage3)
+                {
+                    bullet.TravelingUpward = true;
+                    bullet.TravelingRightward = false;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingDownward = false;
+                }
+                if (tank.image == tankimage)
+                {
+                    bullet.TravelingRightward = true;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingDownward = false;
+                    bullet.TravelingUpward = false;
+                }
             }
         }
 

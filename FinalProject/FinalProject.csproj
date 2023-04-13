@@ -131,12 +131,11 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\ball.jpg" />
     <Content Include="Assets\demoTankDown.png" />
     <Content Include="Assets\demoTankUp.png" />
     <Content Include="Assets\demoTankLeft.png" />
     <Content Include="Assets\demoTankRight.png" />
-    <Content Include="Assets\tank.jpg" />
-    <Content Include="Assets\top-down-tank-png.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

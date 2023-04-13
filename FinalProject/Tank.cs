@@ -1,4 +1,5 @@
 ﻿using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using Windows.UI.Input.Inking;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FinalProject
 {
@@ -22,7 +24,7 @@ namespace FinalProject
 
         public int Speed { get; set; }
 
-        private CanvasBitmap image;
+        public CanvasBitmap image;
 
         private CanvasBitmap leftImage;
 
@@ -31,6 +33,7 @@ namespace FinalProject
         private CanvasBitmap upImage;
 
         private CanvasBitmap downImage;
+
 
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
@@ -52,6 +55,7 @@ namespace FinalProject
             TravelingLeftward = false;
             TravelingRightward = false;
             TravelingUpward= false;
+     
         }
 
         public void Update()
@@ -94,67 +98,75 @@ namespace FinalProject
         void Draw(CanvasDrawingSession canvas);
     }
 
-    /*
-    public class tankGame
+     public class Ball : IDrawable
     {
-        private Tank tank;
-        private List<Tank> drawables;
-        private Gamepad controller;
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Radius { get; set; }
 
-        public tankGame(CanvasBitmap tankimage)
+        public int Speed { get; set; }
+
+        public Color Color { get; set; }
+        public bool TravelingDownward { get; set; }
+        public bool TravelingLeftward { get; set; }
+
+        public bool TravelingUpward { get; set; }
+        public bool TravelingRightward { get; set; }
+
+        private CanvasBitmap image;
+
+        public Ball(int x, int y, int radius, CanvasBitmap image)
         {
-            
-
-            drawables = new List<Tank>();
-
-            tank = new Tank(100, 100, 5, tankimage);
-
-        }
-
-        public void goingUp(bool TravelingUpward)
-        {
-            tank.TravelingUpward = TravelingUpward;
-        }
-
-        public void goingDown(bool TravelingDownward)
-        {
-            tank.TravelingDownward = TravelingDownward;
-        }
-
-        public void goingLeft(bool TravelingLeftward)
-        {
-            tank.TravelingLeftward = TravelingLeftward;
-        }
-
-        public void goingRight(bool TravelingRightward)
-        {
-            tank.TravelingRightward = TravelingRightward;
+            X = x;
+            Y = y;
+            Radius = radius;
+            this.image = image;
+            Speed = 10;
+            ChangeColorRandomly();
+            TravelingDownward = false;
+            TravelingLeftward = false;
+            TravelingUpward = false;
+            TravelingRightward= false;
         }
 
         public void Update()
         {
-            if (Gamepad.Gamepads.Count > 0)
+            if (TravelingDownward)
             {
-                controller = Gamepad.Gamepads.First();
-                var reading = controller.GetCurrentReading();
-                tank.X += (int)(reading.LeftThumbstickX * 5);
-                tank.Y += (int)(reading.LeftThumbstickY * -5);
+                Y += Speed;
             }
-
-            tank.Update();
+            if (TravelingUpward)
+            {
+                Y -= Speed;
+                
+            }
+            if (TravelingLeftward)
+            {
+                X -= Speed;
+               
+            }
+            if (TravelingRightward)
+            {
+                X += Speed;
+            }
         }
 
-        public void DrawGame(CanvasDrawingSession canvas)
+        public void ChangeColorRandomly()
         {
-            foreach (var drawable in drawables)
-            {
-                drawable.Draw(canvas);
-            }
+            Random random = new Random();
+            Color = Color.FromArgb(255, (byte)random.Next(0, 256), (byte)random.Next(0, 256), (byte)random.Next(0, 256));
         }
 
+        public void Draw(CanvasDrawingSession canvas)
+        {
+            // when using image, account for x and y being top left
+            //canvas.DrawImage(image, X, Y);
 
+            // when using ellipse, account for x and y being the center
+
+            canvas.FillEllipse(X, Y, Radius, Radius, Color);
+        }
     }
-    */
 
 
 }
