@@ -13,6 +13,7 @@ using Windows.UI.Input.Inking;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
 using Windows.UI.Xaml.Media.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FinalProject
 {
@@ -23,7 +24,7 @@ namespace FinalProject
 
         public int Speed { get; set; }
 
-        private CanvasBitmap image;
+        public CanvasBitmap image;
 
         private CanvasBitmap leftImage;
 
@@ -33,7 +34,6 @@ namespace FinalProject
 
         private CanvasBitmap downImage;
 
-        private CanvasBitmap bulletImage;
 
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
@@ -41,9 +41,7 @@ namespace FinalProject
         public bool TravelingUpward { get; set; }
         public bool TravelingRightward { get; set; }
 
-        public Ball bullet;
-
-        public Tank(int x, int y, int speed, CanvasBitmap image, CanvasBitmap leftImage, CanvasBitmap rightImage, CanvasBitmap upImage, CanvasBitmap downImage, CanvasBitmap bulletImage)
+        public Tank(int x, int y, int speed, CanvasBitmap image, CanvasBitmap leftImage, CanvasBitmap rightImage, CanvasBitmap upImage, CanvasBitmap downImage)
         {
             X = x;
             Y = y;
@@ -52,7 +50,6 @@ namespace FinalProject
             this.rightImage = rightImage;
             this.upImage = upImage;
             this.downImage = downImage;
-            this.bulletImage = bulletImage;
             Speed = speed;
             TravelingDownward = false;
             TravelingLeftward = false;
@@ -94,29 +91,6 @@ namespace FinalProject
 
         }
 
-        public void shootBullet()
-        {
-            bullet = new Ball(X, Y, 20, bulletImage);
-            if (image == leftImage)
-            {
-                bullet.TravelingLeftward = true;
-            }
-            else
-            {
-                bullet.TravelingLeftward = false;
-            }
-
-            if(image == downImage)
-            {
-                bullet.TravelingDownward = true;
-            }
-            else
-            {
-                bullet.TravelingDownward = false;
-            }
-            bullet.Update();
-        }
-
     }
 
     public interface IDrawable
@@ -136,6 +110,9 @@ namespace FinalProject
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
 
+        public bool TravelingUpward { get; set; }
+        public bool TravelingRightward { get; set; }
+
         private CanvasBitmap image;
 
         public Ball(int x, int y, int radius, CanvasBitmap image)
@@ -144,8 +121,12 @@ namespace FinalProject
             Y = y;
             Radius = radius;
             this.image = image;
-            Speed = 1;
+            Speed = 10;
             ChangeColorRandomly();
+            TravelingDownward = false;
+            TravelingLeftward = false;
+            TravelingUpward = false;
+            TravelingRightward= false;
         }
 
         public void Update()
@@ -154,15 +135,17 @@ namespace FinalProject
             {
                 Y += Speed;
             }
-            else
+            if (TravelingUpward)
             {
                 Y -= Speed;
+                
             }
             if (TravelingLeftward)
             {
                 X -= Speed;
+               
             }
-            else
+            if (TravelingRightward)
             {
                 X += Speed;
             }
@@ -177,11 +160,11 @@ namespace FinalProject
         public void Draw(CanvasDrawingSession canvas)
         {
             // when using image, account for x and y being top left
-            canvas.DrawImage(image, X, Y);
+            //canvas.DrawImage(image, X, Y);
 
             // when using ellipse, account for x and y being the center
 
-            //canvas.FillEllipse(X, Y, Radius, Radius, Color);
+            canvas.FillEllipse(X, Y, Radius, Radius, Color);
         }
     }
 
