@@ -34,6 +34,7 @@ namespace FinalProject
 
         private CanvasBitmap downImage;
 
+        public int score;
 
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
@@ -55,6 +56,7 @@ namespace FinalProject
             TravelingLeftward = false;
             TravelingRightward = false;
             TravelingUpward= false;
+            score = 0;
      
         }
 
@@ -88,6 +90,7 @@ namespace FinalProject
         {
             // when using image, account for x and y being top left
             canvas.DrawImage(image, X, Y);
+            canvas.DrawText($"Player One's Score: {score}", 300, 600, Colors.Red);
 
         }
 
