@@ -176,7 +176,7 @@ namespace FinalProject
     }
     public class Wall : IDrawable, ICollidable
     {
-        public static int WIDTH = 3;
+        public int WIDTH = 10;
         public int X0 { get; set; }
         public int Y0 { get; set; }
         public int X1 { get; set; }
@@ -198,13 +198,14 @@ namespace FinalProject
         public void Draw(CanvasDrawingSession canvas)
         {
             canvas.DrawLine(X0, Y0, X1, Y1, Color, WIDTH);
+            //canvas.DrawRectangle(X0, Y0, WIDTH, Y1 - Y0, Color);
         }
 
         public bool CollidesLeftEdge(int x, int y, int speed)
         {
             return Math.Abs(x - X0) - speed <= 0 && y >= Y0 && y <= Y1;
         }
-
+        
         public bool ColllidesRightEdge(int x, int y, int speed)
         {
             return Math.Abs(x - (X0 + WIDTH)) - speed <= 0 && y >= Y0 && y <= Y1;
