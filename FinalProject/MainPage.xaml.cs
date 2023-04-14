@@ -30,9 +30,10 @@ namespace FinalProject
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        
         void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            
+           
         }
         public MainPage()
         {
@@ -63,6 +64,10 @@ namespace FinalProject
             tank.Update();
             tank2.Update();
             bullet.Update();
+            if (bullet.X == tank2.X && bullet.Y == tank2.Y)
+            {
+                tank.score++;
+            }
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -207,7 +212,7 @@ namespace FinalProject
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Space)
             {
-              
+                
             }
         }
 
