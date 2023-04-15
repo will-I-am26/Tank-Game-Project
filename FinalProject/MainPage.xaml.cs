@@ -94,7 +94,7 @@ namespace FinalProject
             Rect topwallrect = new Rect(topwall.X0, topwall.Y0, topwall.WIDTH, topwall.Y1 - topwall.Y0);
             Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-            Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
 
         }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
@@ -107,8 +107,8 @@ namespace FinalProject
             //double y = Canvas.GetTop(leftWallRect);
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
             Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
-            Rect bulletRect = new Rect(bullet.X, bullet.Y, 1, 1);
-            Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
+            Rect tank2Rect = new Rect(tank2.X,tank2.Y, 120, 60);
 
             if (Intersects(leftwallrect, tankRect))
             {
