@@ -125,8 +125,7 @@ namespace FinalProject
             tank2.Update();
             bullet.Update();
 
-            Size x = tank.image.Size;
-            //double y = Canvas.GetTop(leftWallRect);
+            
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
             Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
             Rect bottomwallrect = new Rect(new Point(bottomwall.X0,bottomwall.Y0), new Point(bottomwall.X1,bottomwall.Y1));
