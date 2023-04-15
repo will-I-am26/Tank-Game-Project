@@ -11,6 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Gaming.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -56,6 +57,8 @@ namespace FinalProject
         Wall rightwall;
         Wall bottomwall;
         Wall topwall;
+        private Gamepad controller;
+        private Gamepad controller2;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
@@ -113,6 +116,26 @@ namespace FinalProject
                 tank.X = leftwall.X0 + leftwall.WIDTH;
 
             }
+
+            if (Gamepad.Gamepads.Count > 0)
+            {
+                controller = Gamepad.Gamepads.First();
+                var reading = controller.GetCurrentReading();
+                tank.X += (int)(reading.LeftThumbstickX * 5);
+                tank.Y += (int)(reading.LeftThumbstickY * -5);
+
+            }
+
+            
+            if (Gamepad.Gamepads.Count > 0)
+            {
+                controller2 = Gamepad.Gamepads.ElementAt(1);
+                var reading = controller2.GetCurrentReading();
+                tank2.X += (int)(reading.LeftThumbstickX * 5);
+                tank2.Y += (int)(reading.LeftThumbstickY * -5);
+
+            }
+            
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
