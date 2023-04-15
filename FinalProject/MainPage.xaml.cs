@@ -86,15 +86,37 @@ namespace FinalProject
             }
 
         }
-        public void HandleCollision()
+        public void HandleCollision(Tank tankObj, Rect tankRect, Rect leftwallRect, Rect rightwallRect1, Rect bottomwallRect1, Rect topwallRect1, Rect bulletRect)
         {
-            Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
-            Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
-            Rect bottomwallrect = new Rect(bottomwall.X0, bottomwall.Y0, bottomwall.WIDTH, bottomwall.Y1 - bottomwall.Y0);
-            Rect topwallrect = new Rect(topwall.X0, topwall.Y0, topwall.WIDTH, topwall.Y1 - topwall.Y0);
-            Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
-            Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-            Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
+            
+            if (Intersects(leftwallRect, tankRect))
+            {
+                isCollides = true;
+                tankObj.TravelingLeftward = false;
+                tankObj.X = leftwall.X0 + leftwall.WIDTH;
+
+            }
+            else if (Intersects(rightwallRect1, tankRect))
+            {
+                isCollides = true;
+                tankObj.TravelingRightward = false;
+                tankObj.X=rightwall.X0 - 25*rightwall.WIDTH;
+            }
+            if (Intersects(bottomwallRect1, tankRect))
+            {
+                isCollides = true;
+                tankObj.TravelingDownward= false;
+                //tankObj.Y = bottomwall.Y1 - 100*bottomwall.WIDTH;
+                
+                tankObj.Y = bottomwall.Y0 - 25 * bottomwall.WIDTH;
+                
+            }
+            else if (Intersects(topwallRect1, tankRect))
+            {
+                isCollides = true;
+                tankObj.TravelingUpward = false;
+                tankObj.Y = topwall.Y0 +topwall.WIDTH;
+            }
 
         }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
@@ -106,17 +128,17 @@ namespace FinalProject
             Size x = tank.image.Size;
             //double y = Canvas.GetTop(leftWallRect);
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
-            Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
+            Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
+            Rect bottomwallrect = new Rect(new Point(bottomwall.X0,bottomwall.Y0), new Point(bottomwall.X1,bottomwall.Y1));
+            
+            Rect topwallrect = new Rect(new Point(topwall.X0, topwall.Y0), new Point(topwall.X1, topwall.Y1));
+            Rect tank1Rect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
+            Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
             Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
-            Rect tank2Rect = new Rect(tank2.X,tank2.Y, 120, 60);
+            HandleCollision(tank,tank1Rect,leftwallrect,rightwallrect,bottomwallrect,topwallrect,bulletRect);
+            HandleCollision(tank2,tank2Rect, leftwallrect, rightwallrect, bottomwallrect, topwallrect, bulletRect);
 
-            if (Intersects(leftwallrect, tankRect))
-            {
-                isCollides = true;
-                tank.TravelingLeftward = false;
-                tank.X = leftwall.X0 + leftwall.WIDTH;
-
-            }
+           
             
             if(Intersects(bulletRect, tank2Rect))
             {

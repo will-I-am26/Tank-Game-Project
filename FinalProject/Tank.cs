@@ -177,7 +177,7 @@ namespace FinalProject
     }
     public class Wall : IDrawable, ICollidable
     {
-        public int WIDTH = 3;
+        public int WIDTH = 5;
         public int X0 { get; set; }
         public int Y0 { get; set; }
         public int X1 { get; set; }
