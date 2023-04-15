@@ -12,9 +12,9 @@
         <Grid.Background>
             <ImageBrush/>
         </Grid.Background>
-        <Button x:Name="PlaygameButton" Content="Play game!" Margin="148,370,0,0" VerticalAlignment="Top" Click="Button_Click" FontFamily="Cambria" FontSize="18" FontWeight="Bold"/>
-        <Button x:Name="InstructionButton" Content="Instruction" Margin="414,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontWeight="Bold" FontSize="18"/>
-        <Button x:Name="CreditButton" Content="Credits" Margin="704,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold"/>
+        <Button x:Name="PlaygameButton" Content="Play game!" Margin="148,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="PlaygameButton_Click"/>
+        <Button x:Name="InstructionButton" Content="Instruction" Margin="414,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontWeight="Bold" FontSize="18" Click="InstructionButton_Click"/>
+        <Button x:Name="CreditButton" Content="Credits" Margin="704,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="CreditButton_Click"/>
 
     </Grid>
 </Page>

@@ -20,32 +20,18 @@ namespace FinalProject
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class Homepage : Page
+    public sealed partial class CreditPage : Page
     {
-        public Homepage()
+        public CreditPage()
         {
             this.InitializeComponent();
         }
 
-        private void CreditButton_Click(object sender, RoutedEventArgs e)
+        private void HomeButtonCredit_Click(object sender, RoutedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
-            rootFrame.Navigate(typeof(CreditPage));
-        }
-
-        private void PlaygameButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            rootFrame.Navigate(typeof(MainPage));
-        }
-
-        private void InstructionButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            rootFrame.Navigate(typeof(Instruction));
+            rootFrame.Navigate(typeof(Homepage));
         }
     }
 }
