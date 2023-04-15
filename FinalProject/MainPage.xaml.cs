@@ -121,20 +121,191 @@ namespace FinalProject
             {
                 controller = Gamepad.Gamepads.First();
                 var reading = controller.GetCurrentReading();
-                tank.X += (int)(reading.LeftThumbstickX * 5);
-                tank.Y += (int)(reading.LeftThumbstickY * -5);
+
+                if((int)reading.LeftThumbstickX < 0)
+                {
+                    tank.TravelingLeftward = true;
+                }
+                else
+                {
+                    tank.TravelingLeftward = false;
+                }
+
+                if ((int)reading.LeftThumbstickX > 0)
+                {
+                    tank.TravelingRightward = true;
+                }
+                else
+                {
+                    tank.TravelingRightward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY > 0)
+                {
+                    tank.TravelingUpward = true;
+                }
+                else
+                {
+                    tank.TravelingUpward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY < 0)
+                {
+                    tank.TravelingDownward = true;
+                }
+                else
+                {
+                    tank.TravelingDownward = false;
+                }
+
+                if (reading.RightTrigger > 0)
+                {
+                    if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
+                    {
+                        if (tank.image == tankimage4)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 100;
+
+                            bullet.TravelingDownward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+                        }
+                        if (tank.image == tankimage2)
+                        {
+                            bullet.X = tank.X + 15;
+                            bullet.Y = tank.Y + 60;
+
+                            bullet.TravelingLeftward = true;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+
+
+                        }
+                        if (tank.image == tankimage3)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 15;
+
+                            bullet.TravelingUpward = true;
+                            bullet.TravelingRightward = false;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+
+
+                        }
+                        if (tank.image == tankimage)
+                        {
+                            bullet.X = tank.X + 100;
+                            bullet.Y = tank.Y + 60;
+                            bullet.TravelingRightward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+
+
+                        }
+                    }
+                }
 
             }
 
-            
+            /*
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
                 var reading = controller2.GetCurrentReading();
-                tank2.X += (int)(reading.LeftThumbstickX * 5);
-                tank2.Y += (int)(reading.LeftThumbstickY * -5);
 
-            }
+                if ((int)reading.LeftThumbstickX < 0)
+                {
+                    tank2.TravelingLeftward = true;
+                }
+                else
+                {
+                    tank2.TravelingLeftward = false;
+                }
+
+                if ((int)reading.LeftThumbstickX > 0)
+                {
+                    tank2.TravelingRightward = true;
+                }
+                else
+                {
+                    tank2.TravelingRightward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY > 0)
+                {
+                    tank2.TravelingUpward = true;
+                }
+                else
+                {
+                    tank2.TravelingUpward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY < 0)
+                {
+                    tank2.TravelingDownward = true;
+                }
+                else
+                {
+                    tank2.TravelingDownward = false;
+                }
+                /*
+                if (reading.RightTrigger > 0)
+                {
+                    if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
+                    {
+                        if (tank.image == tankimage4)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 100;
+
+                            bullet.TravelingDownward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+                        }
+                        if (tank.image == tankimage2)
+                        {
+                            bullet.X = tank.X + 15;
+                            bullet.Y = tank.Y + 60;
+
+                            bullet.TravelingLeftward = true;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+
+
+                        }
+                        if (tank.image == tankimage3)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 15;
+
+                            bullet.TravelingUpward = true;
+                            bullet.TravelingRightward = false;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+
+
+                        }
+                        if (tank.image == tankimage)
+                        {
+                            bullet.X = tank.X + 100;
+                            bullet.Y = tank.Y + 60;
+                            bullet.TravelingRightward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+
+
+                        }
+                    }
+                }
+            }*/
             
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
