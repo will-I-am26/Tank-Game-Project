@@ -57,7 +57,7 @@ namespace FinalProject
             TravelingLeftward = false;
             TravelingRightward = false;
             TravelingUpward= false;
-            score = 0;
+            score = 5;
      
         }
 
@@ -90,7 +90,6 @@ namespace FinalProject
         {
             // when using image, account for x and y being top left
             canvas.DrawImage(image, X, Y);
-            canvas.DrawText($"Player One's Score: {score}", 300, 600, Colors.Red);
         }
 
     }
@@ -115,7 +114,7 @@ namespace FinalProject
         public bool TravelingUpward { get; set; }
         public bool TravelingRightward { get; set; }
 
-        private CanvasBitmap image;
+        public CanvasBitmap image;
 
         public Ball(int x, int y, int radius, CanvasBitmap image)
         {

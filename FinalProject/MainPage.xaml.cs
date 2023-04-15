@@ -69,6 +69,8 @@ namespace FinalProject
             rightwall.Draw(args.DrawingSession);
             bottomwall.Draw(args.DrawingSession);
             topwall.Draw(args.DrawingSession);
+            args.DrawingSession.DrawText($"Player One's life: {tank.score}", 300, 600, Colors.Red);
+            args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 600, Colors.Red);
         }
 
         public bool Intersects(Rect r1, Rect r2)
@@ -92,7 +94,7 @@ namespace FinalProject
             Rect topwallrect = new Rect(topwall.X0, topwall.Y0, topwall.WIDTH, topwall.Y1 - topwall.Y0);
             Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
 
         }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
@@ -100,14 +102,13 @@ namespace FinalProject
             tank.Update();
             tank2.Update();
             bullet.Update();
-            if (bullet.X == tank2.X && bullet.Y == tank2.Y)
-            {
-                tank.score++;
-            }
+
             Size x = tank.image.Size;
             //double y = Canvas.GetTop(leftWallRect);
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
             Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 1, 1);
+            Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
 
             if (Intersects(leftwallrect, tankRect))
             {
@@ -115,6 +116,13 @@ namespace FinalProject
                 tank.TravelingLeftward = false;
                 tank.X = leftwall.X0 + leftwall.WIDTH;
 
+            }
+            
+            if(Intersects(bulletRect, tank2Rect))
+            {
+                isCollides = true;
+                tank2.score--;
+                bullet.X = 1920;
             }
 
             if (Gamepad.Gamepads.Count > 0)
