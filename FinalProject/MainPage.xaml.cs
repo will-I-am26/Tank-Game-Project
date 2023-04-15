@@ -51,14 +51,47 @@ namespace FinalProject
         private CanvasBitmap tankimage4;
         private CanvasBitmap ballImage;
         Ball bullet;
+        bool isCollides = false;
+        Wall leftwall;
+        Wall rightwall;
+        Wall bottomwall;
+        Wall topwall;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             tank.Draw(args.DrawingSession);
             tank2.Draw(args.DrawingSession);
             bullet.Draw(args.DrawingSession);
+            leftwall.Draw(args.DrawingSession);
+            rightwall.Draw(args.DrawingSession);
+            bottomwall.Draw(args.DrawingSession);
+            topwall.Draw(args.DrawingSession);
         }
 
+        public bool Intersects(Rect r1, Rect r2)
+        {
+            r1.Intersect(r2);
+            if (r1.IsEmpty)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+        }
+        public void HandleCollision()
+        {
+            Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
+            Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
+            Rect bottomwallrect = new Rect(bottomwall.X0, bottomwall.Y0, bottomwall.WIDTH, bottomwall.Y1 - bottomwall.Y0);
+            Rect topwallrect = new Rect(topwall.X0, topwall.Y0, topwall.WIDTH, topwall.Y1 - topwall.Y0);
+            Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
+            Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
+
+
+        }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             tank.Update();
@@ -67,6 +100,18 @@ namespace FinalProject
             if (bullet.X == tank2.X && bullet.Y == tank2.Y)
             {
                 tank.score++;
+            }
+            Size x = tank.image.Size;
+            //double y = Canvas.GetTop(leftWallRect);
+            Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
+            Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
+
+            if (Intersects(leftwallrect, tankRect))
+            {
+                isCollides = true;
+                tank.TravelingLeftward = false;
+                tank.X = leftwall.X0 + leftwall.WIDTH;
+
             }
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
@@ -85,6 +130,10 @@ namespace FinalProject
             tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
             bullet = new Ball(1920, tank.Y, 10, ballImage);
+            leftwall = new Wall(20, 10, 20, 750, Colors.DarkSeaGreen);
+            rightwall = new Wall(1510, 10, 1510, 750, Colors.DarkSeaGreen);
+            topwall = new Wall(20, 10, 1510, 10, Colors.DarkSeaGreen);
+            bottomwall = new Wall(20, 750, 1510, 750, Colors.DarkSeaGreen);
         }
     
 
