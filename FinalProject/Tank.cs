@@ -36,6 +36,7 @@ namespace FinalProject
 
         public int score;
 
+
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
 
@@ -56,7 +57,7 @@ namespace FinalProject
             TravelingLeftward = false;
             TravelingRightward = false;
             TravelingUpward= false;
-            score = 0;
+            score = 5;
      
         }
 
@@ -68,7 +69,7 @@ namespace FinalProject
                 Y += Speed;
                 image = downImage;
             }
-            if(TravelingUpward)
+            if (TravelingUpward)
             {
                 Y -= Speed;
                 image = upImage;
@@ -83,15 +84,12 @@ namespace FinalProject
                 X += Speed;
                 image = rightImage;
             }
-
         }
 
         public void Draw(CanvasDrawingSession canvas)
         {
             // when using image, account for x and y being top left
             canvas.DrawImage(image, X, Y);
-            canvas.DrawText($"Player One's Score: {score}", 300, 600, Colors.Red);
-
         }
 
     }
@@ -116,7 +114,7 @@ namespace FinalProject
         public bool TravelingUpward { get; set; }
         public bool TravelingRightward { get; set; }
 
-        private CanvasBitmap image;
+        public CanvasBitmap image;
 
         public Ball(int x, int y, int radius, CanvasBitmap image)
         {

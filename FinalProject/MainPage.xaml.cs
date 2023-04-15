@@ -11,6 +11,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Gaming.Input;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -56,6 +57,8 @@ namespace FinalProject
         Wall rightwall;
         Wall bottomwall;
         Wall topwall;
+        private Gamepad controller;
+        private Gamepad controller2;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
@@ -66,6 +69,8 @@ namespace FinalProject
             rightwall.Draw(args.DrawingSession);
             bottomwall.Draw(args.DrawingSession);
             topwall.Draw(args.DrawingSession);
+            args.DrawingSession.DrawText($"Player One's life: {tank.score}", 300, 600, Colors.Red);
+            args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 600, Colors.Red);
         }
 
         public bool Intersects(Rect r1, Rect r2)
@@ -89,7 +94,7 @@ namespace FinalProject
             Rect topwallrect = new Rect(topwall.X0, topwall.Y0, topwall.WIDTH, topwall.Y1 - topwall.Y0);
             Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
 
         }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
@@ -97,14 +102,13 @@ namespace FinalProject
             tank.Update();
             tank2.Update();
             bullet.Update();
-            if (bullet.X == tank2.X && bullet.Y == tank2.Y)
-            {
-                tank.score++;
-            }
+
             Size x = tank.image.Size;
             //double y = Canvas.GetTop(leftWallRect);
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
             Rect tankRect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
+            Rect tank2Rect = new Rect(tank2.X,tank2.Y, 120, 60);
 
             if (Intersects(leftwallrect, tankRect))
             {
@@ -113,6 +117,204 @@ namespace FinalProject
                 tank.X = leftwall.X0 + leftwall.WIDTH;
 
             }
+            
+            if(Intersects(bulletRect, tank2Rect))
+            {
+                isCollides = true;
+                tank2.score--;
+                bullet.X = 1920;
+            }
+
+            if (Gamepad.Gamepads.Count > 0)
+            {
+                controller = Gamepad.Gamepads.First();
+                var reading = controller.GetCurrentReading();
+
+                if((int)reading.LeftThumbstickX < 0)
+                {
+                    tank.TravelingLeftward = true;
+                }
+                else
+                {
+                    tank.TravelingLeftward = false;
+                }
+
+                if ((int)reading.LeftThumbstickX > 0)
+                {
+                    tank.TravelingRightward = true;
+                }
+                else
+                {
+                    tank.TravelingRightward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY > 0)
+                {
+                    tank.TravelingUpward = true;
+                }
+                else
+                {
+                    tank.TravelingUpward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY < 0)
+                {
+                    tank.TravelingDownward = true;
+                }
+                else
+                {
+                    tank.TravelingDownward = false;
+                }
+
+                if (reading.RightTrigger > 0)
+                {
+                    if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
+                    {
+                        if (tank.image == tankimage4)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 100;
+
+                            bullet.TravelingDownward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+                        }
+                        if (tank.image == tankimage2)
+                        {
+                            bullet.X = tank.X + 15;
+                            bullet.Y = tank.Y + 60;
+
+                            bullet.TravelingLeftward = true;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+
+
+                        }
+                        if (tank.image == tankimage3)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 15;
+
+                            bullet.TravelingUpward = true;
+                            bullet.TravelingRightward = false;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+
+
+                        }
+                        if (tank.image == tankimage)
+                        {
+                            bullet.X = tank.X + 100;
+                            bullet.Y = tank.Y + 60;
+                            bullet.TravelingRightward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+
+
+                        }
+                    }
+                }
+
+            }
+
+            /*
+            if (Gamepad.Gamepads.Count > 0)
+            {
+                controller2 = Gamepad.Gamepads.ElementAt(1);
+                var reading = controller2.GetCurrentReading();
+
+                if ((int)reading.LeftThumbstickX < 0)
+                {
+                    tank2.TravelingLeftward = true;
+                }
+                else
+                {
+                    tank2.TravelingLeftward = false;
+                }
+
+                if ((int)reading.LeftThumbstickX > 0)
+                {
+                    tank2.TravelingRightward = true;
+                }
+                else
+                {
+                    tank2.TravelingRightward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY > 0)
+                {
+                    tank2.TravelingUpward = true;
+                }
+                else
+                {
+                    tank2.TravelingUpward = false;
+                }
+
+                if ((int)reading.LeftThumbstickY < 0)
+                {
+                    tank2.TravelingDownward = true;
+                }
+                else
+                {
+                    tank2.TravelingDownward = false;
+                }
+                /*
+                if (reading.RightTrigger > 0)
+                {
+                    if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
+                    {
+                        if (tank.image == tankimage4)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 100;
+
+                            bullet.TravelingDownward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+                        }
+                        if (tank.image == tankimage2)
+                        {
+                            bullet.X = tank.X + 15;
+                            bullet.Y = tank.Y + 60;
+
+                            bullet.TravelingLeftward = true;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+                            bullet.TravelingRightward = false;
+
+
+                        }
+                        if (tank.image == tankimage3)
+                        {
+                            bullet.X = tank.X + 60;
+                            bullet.Y = tank.Y + 15;
+
+                            bullet.TravelingUpward = true;
+                            bullet.TravelingRightward = false;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+
+
+                        }
+                        if (tank.image == tankimage)
+                        {
+                            bullet.X = tank.X + 100;
+                            bullet.Y = tank.Y + 60;
+                            bullet.TravelingRightward = true;
+                            bullet.TravelingLeftward = false;
+                            bullet.TravelingDownward = false;
+                            bullet.TravelingUpward = false;
+
+
+                        }
+                    }
+                }
+            }*/
+            
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
