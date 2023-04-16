@@ -52,6 +52,7 @@ namespace FinalProject
         private CanvasBitmap tankimage4;
         private CanvasBitmap ballImage;
         Ball bullet;
+        Ball bullet2;
         bool isCollides = false;
         Wall leftwall;
         Wall rightwall;
@@ -69,6 +70,7 @@ namespace FinalProject
             rightwall.Draw(args.DrawingSession);
             bottomwall.Draw(args.DrawingSession);
             topwall.Draw(args.DrawingSession);
+            bullet2.Draw(args.DrawingSession);
             args.DrawingSession.DrawText($"Player One's life: {tank.score}", 300, 600, Colors.Red);
             args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 600, Colors.Red);
         }
@@ -124,7 +126,7 @@ namespace FinalProject
             tank.Update();
             tank2.Update();
             bullet.Update();
-
+            bullet2.Update();
             
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
             Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
@@ -133,7 +135,8 @@ namespace FinalProject
             Rect topwallrect = new Rect(new Point(topwall.X0, topwall.Y0), new Point(topwall.X1, topwall.Y1));
             Rect tank1Rect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-            Rect bulletRect = new Rect(bullet.X, bullet.Y, 5, 5);
+            Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
+            Rect bullet2Rect = new Rect(bullet2.X, bullet2.Y, 10, 10);
             HandleCollision(tank,tank1Rect,leftwallrect,rightwallrect,bottomwallrect,topwallrect,bulletRect);
             HandleCollision(tank2,tank2Rect, leftwallrect, rightwallrect, bottomwallrect, topwallrect, bulletRect);
 
@@ -144,13 +147,28 @@ namespace FinalProject
                 isCollides = true;
                 tank2.score--;
                 bullet.X = 1920;
+                bullet.TravelingLeftward = false;
+                bullet.TravelingRightward = false;
+                bullet.TravelingUpward = false;
+                bullet.TravelingDownward = false;
             }
 
+            if (Intersects(bullet2Rect, tank1Rect))
+            {
+                isCollides = true;
+                tank.score--;
+                bullet2.X = 2000;
+                bullet2.TravelingLeftward = false;
+                bullet2.TravelingRightward = false;
+                bullet2.TravelingUpward = false;
+                bullet2.TravelingDownward = false;
+            }
+
+            /*
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
                 var reading = controller.GetCurrentReading();
-
                 if((int)reading.LeftThumbstickX < 0)
                 {
                     tank.TravelingLeftward = true;
@@ -159,7 +177,6 @@ namespace FinalProject
                 {
                     tank.TravelingLeftward = false;
                 }
-
                 if ((int)reading.LeftThumbstickX > 0)
                 {
                     tank.TravelingRightward = true;
@@ -168,7 +185,6 @@ namespace FinalProject
                 {
                     tank.TravelingRightward = false;
                 }
-
                 if ((int)reading.LeftThumbstickY > 0)
                 {
                     tank.TravelingUpward = true;
@@ -177,7 +193,6 @@ namespace FinalProject
                 {
                     tank.TravelingUpward = false;
                 }
-
                 if ((int)reading.LeftThumbstickY < 0)
                 {
                     tank.TravelingDownward = true;
@@ -186,7 +201,6 @@ namespace FinalProject
                 {
                     tank.TravelingDownward = false;
                 }
-
                 if (reading.RightTrigger > 0)
                 {
                     if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
@@ -195,7 +209,6 @@ namespace FinalProject
                         {
                             bullet.X = tank.X + 60;
                             bullet.Y = tank.Y + 100;
-
                             bullet.TravelingDownward = true;
                             bullet.TravelingLeftward = false;
                             bullet.TravelingUpward = false;
@@ -205,25 +218,19 @@ namespace FinalProject
                         {
                             bullet.X = tank.X + 15;
                             bullet.Y = tank.Y + 60;
-
                             bullet.TravelingLeftward = true;
                             bullet.TravelingDownward = false;
                             bullet.TravelingUpward = false;
                             bullet.TravelingRightward = false;
-
-
                         }
                         if (tank.image == tankimage3)
                         {
                             bullet.X = tank.X + 60;
                             bullet.Y = tank.Y + 15;
-
                             bullet.TravelingUpward = true;
                             bullet.TravelingRightward = false;
                             bullet.TravelingLeftward = false;
                             bullet.TravelingDownward = false;
-
-
                         }
                         if (tank.image == tankimage)
                         {
@@ -233,20 +240,16 @@ namespace FinalProject
                             bullet.TravelingLeftward = false;
                             bullet.TravelingDownward = false;
                             bullet.TravelingUpward = false;
-
-
                         }
                     }
+                    
                 }
-
             }
-
             /*
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
                 var reading = controller2.GetCurrentReading();
-
                 if ((int)reading.LeftThumbstickX < 0)
                 {
                     tank2.TravelingLeftward = true;
@@ -255,7 +258,6 @@ namespace FinalProject
                 {
                     tank2.TravelingLeftward = false;
                 }
-
                 if ((int)reading.LeftThumbstickX > 0)
                 {
                     tank2.TravelingRightward = true;
@@ -264,7 +266,6 @@ namespace FinalProject
                 {
                     tank2.TravelingRightward = false;
                 }
-
                 if ((int)reading.LeftThumbstickY > 0)
                 {
                     tank2.TravelingUpward = true;
@@ -273,7 +274,6 @@ namespace FinalProject
                 {
                     tank2.TravelingUpward = false;
                 }
-
                 if ((int)reading.LeftThumbstickY < 0)
                 {
                     tank2.TravelingDownward = true;
@@ -285,43 +285,36 @@ namespace FinalProject
                 /*
                 if (reading.RightTrigger > 0)
                 {
-                    if (bullet.X > 1200 || bullet.X < 0 || bullet.Y < 0 || bullet.Y > 950)
+                    if (bullet2.X > 1200 || bullet2.X < 0 || bullet2.Y < 0 || bullet2.Y > 950)
                     {
-                        if (tank.image == tankimage4)
+                        if (tank2.image == tankimage4)
                         {
-                            bullet.X = tank.X + 60;
-                            bullet.Y = tank.Y + 100;
-
-                            bullet.TravelingDownward = true;
-                            bullet.TravelingLeftward = false;
-                            bullet.TravelingUpward = false;
-                            bullet.TravelingRightward = false;
+                            bullet2.X = tank.X + 60;
+                            bullet2.Y = tank.Y + 100;
+                            bullet2.TravelingDownward = true;
+                            bullet2.TravelingLeftward = false;
+                            bullet2.TravelingUpward = false;
+                            bullet2.TravelingRightward = false;
                         }
-                        if (tank.image == tankimage2)
+                        if (tank2.image == tankimage2)
                         {
-                            bullet.X = tank.X + 15;
-                            bullet.Y = tank.Y + 60;
-
-                            bullet.TravelingLeftward = true;
-                            bullet.TravelingDownward = false;
-                            bullet.TravelingUpward = false;
-                            bullet.TravelingRightward = false;
-
-
+                            bullet2.X = tank.X + 15;
+                            bullet2.Y = tank.Y + 60;
+                            bullet2.TravelingLeftward = true;
+                            bullet2.TravelingDownward = false;
+                            bullet2.TravelingUpward = false;
+                            bullet2.TravelingRightward = false;
                         }
-                        if (tank.image == tankimage3)
+                        if (tank2.image == tankimage3)
                         {
-                            bullet.X = tank.X + 60;
-                            bullet.Y = tank.Y + 15;
-
-                            bullet.TravelingUpward = true;
-                            bullet.TravelingRightward = false;
-                            bullet.TravelingLeftward = false;
-                            bullet.TravelingDownward = false;
-
-
+                            bullet2.X = tank.X + 60;
+                            bullet2.Y = tank.Y + 15;
+                            bullet2.TravelingUpward = true;
+                            bullet2.TravelingRightward = false;
+                            bullet2.TravelingLeftward = false;
+                            bullet2.TravelingDownward = false;
                         }
-                        if (tank.image == tankimage)
+                        if (tank2.image == tankimage)
                         {
                             bullet.X = tank.X + 100;
                             bullet.Y = tank.Y + 60;
@@ -329,13 +322,11 @@ namespace FinalProject
                             bullet.TravelingLeftward = false;
                             bullet.TravelingDownward = false;
                             bullet.TravelingUpward = false;
-
-
                         }
                     }
                 }
             }*/
-            
+
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -357,6 +348,7 @@ namespace FinalProject
             rightwall = new Wall(1510, 10, 1510, 750, Colors.DarkSeaGreen);
             topwall = new Wall(20, 10, 1510, 10, Colors.DarkSeaGreen);
             bottomwall = new Wall(20, 750, 1510, 750, Colors.DarkSeaGreen);
+            bullet2 = new Ball(1920, 200, 10, ballImage);
         }
     
 
@@ -364,35 +356,88 @@ namespace FinalProject
         {
             if (e.VirtualKey == Windows.System.VirtualKey.Left)
             {
-                tank.TravelingLeftward = true;
+                tank2.TravelingLeftward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Right)
             {
-                tank.TravelingRightward = true;
+                tank2.TravelingRightward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Up)
             {
-                tank.TravelingUpward = true;
+                tank2.TravelingUpward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Down)
             {
-                tank.TravelingDownward = true;
+                tank2.TravelingDownward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.D)
             {
-                tank2.TravelingRightward = true;
+                tank.TravelingRightward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.W)
             {
-                tank2.TravelingUpward = true;
+                tank.TravelingUpward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.S)
             {
-                tank2.TravelingDownward = true;
+                tank.TravelingDownward = true;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.A)
             {
-                tank2.TravelingLeftward = true;
+                tank.TravelingLeftward = true;
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.NumberPad2)
+            {
+                if (bullet2.X > 1900 || bullet2.X < 0 || bullet2.Y < 0 || bullet2.Y > 950)
+                {
+                    if (tank2.image == tankimage4)
+                    {
+                        bullet2.X = tank2.X + 60;
+                        bullet2.Y = tank2.Y + 100;
+
+                        bullet2.TravelingDownward = true;
+                        bullet2.TravelingLeftward = false;
+                        bullet2.TravelingUpward = false;
+                        bullet2.TravelingRightward = false;
+                    }
+                    if (tank2.image == tankimage2)
+                    {
+                        bullet2.X = tank2.X + 15;
+                        bullet2.Y = tank2.Y + 60;
+
+                        bullet2.TravelingLeftward = true;
+                        bullet2.TravelingDownward = false;
+                        bullet2.TravelingUpward = false;
+                        bullet2.TravelingRightward = false;
+
+
+                    }
+                    if (tank2.image == tankimage3)
+                    {
+                        bullet2.X = tank2.X + 60;
+                        bullet2.Y = tank2.Y + 15;
+
+                        bullet2.TravelingUpward = true;
+                        bullet2.TravelingRightward = false;
+                        bullet2.TravelingLeftward = false;
+                        bullet2.TravelingDownward = false;
+
+
+                    }
+                    if (tank2.image == tankimage)
+                    {
+                        bullet2.X = tank2.X + 100;
+                        bullet2.Y = tank2.Y + 60;
+                        bullet2.TravelingRightward = true;
+                        bullet2.TravelingLeftward = false;
+                        bullet2.TravelingDownward = false;
+                        bullet2.TravelingUpward = false;
+
+
+                    }
+                }
+
+
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Space)
             {
@@ -444,47 +489,52 @@ namespace FinalProject
 
                     }
                 }
-               
+
             }
+
         }
 
         private void Canvas_KeyUp(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
         {
             if (e.VirtualKey == Windows.System.VirtualKey.Left)
             {
-                tank.TravelingLeftward = false;
+                tank2.TravelingLeftward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Right)
             {
-                tank.TravelingRightward = false;
+                tank2.TravelingRightward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Up)
             {
-                tank.TravelingUpward = false;
+                tank2.TravelingUpward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Down)
             {
-                tank.TravelingDownward = false;
+                tank2.TravelingDownward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.D)
             {
-                tank2.TravelingRightward = false;
+                tank.TravelingRightward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.W)
             {
-                tank2.TravelingUpward = false;
+                tank.TravelingUpward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.S)
             {
-                tank2.TravelingDownward = false;
+                tank.TravelingDownward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.A)
             {
-                tank2.TravelingLeftward = false;
+                tank.TravelingLeftward = false;
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Space)
             {
-                
+
+            }
+            else if (e.VirtualKey == Windows.System.VirtualKey.NumberPad2)
+            {
+
             }
         }
 
