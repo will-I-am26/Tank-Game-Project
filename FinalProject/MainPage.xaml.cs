@@ -343,12 +343,12 @@ namespace FinalProject
 
             tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
-            bullet = new Ball(1920, tank.Y, 10, ballImage);
+            bullet = new Ball(2200, tank.Y, 10, ballImage);
             leftwall = new Wall(20, 10, 20, 750, Colors.DarkSeaGreen);
             rightwall = new Wall(1510, 10, 1510, 750, Colors.DarkSeaGreen);
             topwall = new Wall(20, 10, 1510, 10, Colors.DarkSeaGreen);
             bottomwall = new Wall(20, 750, 1510, 750, Colors.DarkSeaGreen);
-            bullet2 = new Ball(1920, 200, 10, ballImage);
+            bullet2 = new Ball(2200, 200, 10, ballImage);
         }
     
 
