@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.ServiceModel.Channels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -25,6 +26,7 @@ namespace FinalProject
         public CreditPage()
         {
             this.InitializeComponent();
+            
         }
 
         private void HomeButtonCredit_Click(object sender, RoutedEventArgs e)
@@ -33,5 +35,7 @@ namespace FinalProject
 
             rootFrame.Navigate(typeof(Homepage));
         }
+
+       
     }
 }

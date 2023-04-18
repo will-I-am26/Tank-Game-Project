@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.ServiceModel.Channels;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -56,6 +57,10 @@ namespace FinalProject
         private CanvasBitmap tankimage3;
         private CanvasBitmap tankimage4;
         private CanvasBitmap ballImage;
+        private CanvasBitmap bluetankimage;
+        private CanvasBitmap bluetankimage2;
+        private CanvasBitmap bluetankimage3;
+        private CanvasBitmap bluetankimage4;
         Ball bullet;
         Ball bullet2;
         bool isCollides = false;
@@ -111,7 +116,7 @@ namespace FinalProject
             {
                 isCollides = true;
                 tankObj.TravelingRightward = false;
-                tankObj.X=rightwall.X0 - 25*rightwall.WIDTH;
+                tankObj.X=rightwall.X0 - 22*rightwall.WIDTH;
             }
             if (Intersects(bottomwallRect1, tankRect))
             {
@@ -119,7 +124,7 @@ namespace FinalProject
                 tankObj.TravelingDownward= false;
                 //tankObj.Y = bottomwall.Y1 - 100*bottomwall.WIDTH;
                 
-                tankObj.Y = bottomwall.Y0 - 25 * bottomwall.WIDTH;
+                tankObj.Y = bottomwall.Y0 - 22 * bottomwall.WIDTH;
                 
             }
             else if (Intersects(topwallRect1, tankRect))
@@ -151,7 +156,8 @@ namespace FinalProject
             HandleCollision(tank,tank1Rect,leftwallrect,rightwallrect,bottomwallrect,topwallrect,bulletRect);
             HandleCollision(tank2,tank2Rect, leftwallrect, rightwallrect, bottomwallrect, topwallrect, bulletRect);
 
-           
+
+
             
             if(Intersects(bulletRect, tank2Rect))
             {
@@ -175,12 +181,24 @@ namespace FinalProject
                 bullet2.TravelingDownward = false;
             }
 
-            
+            if (Intersects(tank1Rect, tank2Rect))
+            {
+                tank.X -= 5;
+                tank2.X += 5;
+                tank.Y -= 5;
+                tank2.Y += 5;
+            }
+
+
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
                 var reading = controller.GetCurrentReading();
-                if((int)reading.LeftThumbstickX < 0)
+
+                tank.X += (int)(reading.LeftThumbstickX * 5);
+                tank.Y += (int)(reading.LeftThumbstickY * -5);
+
+                if ((int)reading.LeftThumbstickX < 0)
                 {
                     tank.TravelingLeftward = true;
                 }
@@ -218,8 +236,8 @@ namespace FinalProject
                     {
                         if (tank.image == tankimage4)
                         {
-                            bullet.X = tank.X + 60;
-                            bullet.Y = tank.Y + 100;
+                            bullet.X = tank.X + 50;
+                            bullet.Y = tank.Y + 65;
                             bullet.TravelingDownward = true;
                             bullet.TravelingLeftward = false;
                             bullet.TravelingUpward = false;
@@ -227,8 +245,8 @@ namespace FinalProject
                         }
                         if (tank.image == tankimage2)
                         {
-                            bullet.X = tank.X + 15;
-                            bullet.Y = tank.Y + 60;
+                            bullet.X = tank.X + 10;
+                            bullet.Y = tank.Y + 34;
                             bullet.TravelingLeftward = true;
                             bullet.TravelingDownward = false;
                             bullet.TravelingUpward = false;
@@ -236,7 +254,7 @@ namespace FinalProject
                         }
                         if (tank.image == tankimage3)
                         {
-                            bullet.X = tank.X + 60;
+                            bullet.X = tank.X + 32;
                             bullet.Y = tank.Y + 15;
                             bullet.TravelingUpward = true;
                             bullet.TravelingRightward = false;
@@ -245,8 +263,8 @@ namespace FinalProject
                         }
                         if (tank.image == tankimage)
                         {
-                            bullet.X = tank.X + 100;
-                            bullet.Y = tank.Y + 60;
+                            bullet.X = tank.X + 80;
+                            bullet.Y = tank.Y + 30;
                             bullet.TravelingRightward = true;
                             bullet.TravelingLeftward = false;
                             bullet.TravelingDownward = false;
@@ -261,6 +279,10 @@ namespace FinalProject
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
                 var reading = controller2.GetCurrentReading();
+
+                tank2.X += (int)(reading.LeftThumbstickX * 5);
+                tank2.Y += (int)(reading.LeftThumbstickY * -5);
+
                 if ((int)reading.LeftThumbstickX < 0)
                 {
                     tank2.TravelingLeftward = true;
@@ -298,37 +320,37 @@ namespace FinalProject
                 {
                     if (bullet2.X > 1200 || bullet2.X < 0 || bullet2.Y < 0 || bullet2.Y > 950)
                     {
-                        if (tank2.image == tankimage4)
+                        if (tank2.image == bluetankimage4)
                         {
-                            bullet2.X = tank2.X + 60;
-                            bullet2.Y = tank2.Y + 100;
+                            bullet2.X = tank2.X + 50;
+                            bullet2.Y = tank2.Y + 65;
                             bullet2.TravelingDownward = true;
                             bullet2.TravelingLeftward = false;
                             bullet2.TravelingUpward = false;
                             bullet2.TravelingRightward = false;
                         }
-                        if (tank2.image == tankimage2)
+                        if (tank2.image == bluetankimage2)
                         {
-                            bullet2.X = tank2.X + 15;
-                            bullet2.Y = tank2.Y + 60;
+                            bullet2.X = tank2.X + 10;
+                            bullet2.Y = tank2.Y + 34;
                             bullet2.TravelingLeftward = true;
                             bullet2.TravelingDownward = false;
                             bullet2.TravelingUpward = false;
                             bullet2.TravelingRightward = false;
                         }
-                        if (tank2.image == tankimage3)
+                        if (tank2.image == bluetankimage3)
                         {
-                            bullet2.X = tank2.X + 60;
+                            bullet2.X = tank2.X + 32;
                             bullet2.Y = tank2.Y + 15;
                             bullet2.TravelingUpward = true;
                             bullet2.TravelingRightward = false;
                             bullet2.TravelingLeftward = false;
                             bullet2.TravelingDownward = false;
                         }
-                        if (tank2.image == tankimage)
+                        if (tank2.image == bluetankimage)
                         {
-                            bullet2.X = tank2.X + 100;
-                            bullet2.Y = tank2.Y + 60;
+                            bullet2.X = tank2.X + 80;
+                            bullet2.Y = tank2.Y + 30;
                             bullet2.TravelingRightward = true;
                             bullet2.TravelingLeftward = false;
                             bullet2.TravelingDownward = false;
@@ -352,14 +374,19 @@ namespace FinalProject
             tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankBottom.png");
             ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
 
+            bluetankimage = await CanvasBitmap.LoadAsync(sender, "Assets/bluetank_90x90.png");
+            bluetankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankLeft.png");
+            bluetankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankTop.png");
+            bluetankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankBottom.png");
+
             tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
-            tank2 = new Tank(500, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
-            bullet = new Ball(2200, tank.Y, 10, ballImage);
+            tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
+            bullet = new Ball(2200, tank.Y, 5, ballImage);
             leftwall = new Wall(20, 10, 20, 750, Colors.CornflowerBlue);
             rightwall = new Wall(930, 10, 930, 520, Colors.CornflowerBlue);
             topwall = new Wall(20, 10, 1510, 10, Colors.CornflowerBlue);
             bottomwall = new Wall(20, 520, 930, 520, Colors.CornflowerBlue);
-            bullet2 = new Ball(2200, 200, 10, ballImage);
+            bullet2 = new Ball(2200, 200, 5, ballImage);
             canvasScoreTextFormat = new CanvasTextFormat();
         }
     
