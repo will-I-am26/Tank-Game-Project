@@ -30,6 +30,8 @@ namespace FinalProject
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.RequiresPointerMode = Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
+
         }
 
         /// <summary>

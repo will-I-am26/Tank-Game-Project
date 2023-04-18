@@ -1,5 +1,6 @@
 ﻿using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
+using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
@@ -42,6 +43,10 @@ namespace FinalProject
 
             Window.Current.CoreWindow.KeyDown += Canvas_KeyDown;
             Window.Current.CoreWindow.KeyUp += Canvas_KeyUp;
+
+         
+
+            Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
         }
 
         Tank tank;
@@ -60,6 +65,7 @@ namespace FinalProject
         Wall topwall;
         private Gamepad controller;
         private Gamepad controller2;
+        CanvasTextFormat canvasScoreTextFormat;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
@@ -71,8 +77,11 @@ namespace FinalProject
             bottomwall.Draw(args.DrawingSession);
             topwall.Draw(args.DrawingSession);
             bullet2.Draw(args.DrawingSession);
-            args.DrawingSession.DrawText($"Player One's life: {tank.score}", 300, 600, Colors.Red);
-            args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 600, Colors.Red);
+            canvasScoreTextFormat.FontSize = 15;
+            canvasScoreTextFormat.FontFamily = "cambria";
+            args.DrawingSession.DrawText($"Player One's life: {tank.score}", 70, 10, Colors.Red, canvasScoreTextFormat);
+            args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 10, Colors.Red, canvasScoreTextFormat);
+           
         }
 
         public bool Intersects(Rect r1, Rect r2)
@@ -127,7 +136,9 @@ namespace FinalProject
             tank2.Update();
             bullet.Update();
             bullet2.Update();
-            
+           // tankOneScoreTextBlock.Text = $"Tank two's life: {tank2.score}";
+            //tankOneScoreTextBlock.Text = $"Tank one's life: {tank.score}";
+
             Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
             Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
             Rect bottomwallrect = new Rect(new Point(bottomwall.X0,bottomwall.Y0), new Point(bottomwall.X1,bottomwall.Y1));
@@ -164,7 +175,7 @@ namespace FinalProject
                 bullet2.TravelingDownward = false;
             }
 
-            /*
+            
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
@@ -245,7 +256,7 @@ namespace FinalProject
                     
                 }
             }
-            /*
+            
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
@@ -282,15 +293,15 @@ namespace FinalProject
                 {
                     tank2.TravelingDownward = false;
                 }
-                /*
+                
                 if (reading.RightTrigger > 0)
                 {
                     if (bullet2.X > 1200 || bullet2.X < 0 || bullet2.Y < 0 || bullet2.Y > 950)
                     {
                         if (tank2.image == tankimage4)
                         {
-                            bullet2.X = tank.X + 60;
-                            bullet2.Y = tank.Y + 100;
+                            bullet2.X = tank2.X + 60;
+                            bullet2.Y = tank2.Y + 100;
                             bullet2.TravelingDownward = true;
                             bullet2.TravelingLeftward = false;
                             bullet2.TravelingUpward = false;
@@ -298,8 +309,8 @@ namespace FinalProject
                         }
                         if (tank2.image == tankimage2)
                         {
-                            bullet2.X = tank.X + 15;
-                            bullet2.Y = tank.Y + 60;
+                            bullet2.X = tank2.X + 15;
+                            bullet2.Y = tank2.Y + 60;
                             bullet2.TravelingLeftward = true;
                             bullet2.TravelingDownward = false;
                             bullet2.TravelingUpward = false;
@@ -307,8 +318,8 @@ namespace FinalProject
                         }
                         if (tank2.image == tankimage3)
                         {
-                            bullet2.X = tank.X + 60;
-                            bullet2.Y = tank.Y + 15;
+                            bullet2.X = tank2.X + 60;
+                            bullet2.Y = tank2.Y + 15;
                             bullet2.TravelingUpward = true;
                             bullet2.TravelingRightward = false;
                             bullet2.TravelingLeftward = false;
@@ -316,16 +327,16 @@ namespace FinalProject
                         }
                         if (tank2.image == tankimage)
                         {
-                            bullet.X = tank.X + 100;
-                            bullet.Y = tank.Y + 60;
-                            bullet.TravelingRightward = true;
-                            bullet.TravelingLeftward = false;
-                            bullet.TravelingDownward = false;
-                            bullet.TravelingUpward = false;
+                            bullet2.X = tank2.X + 100;
+                            bullet2.Y = tank2.Y + 60;
+                            bullet2.TravelingRightward = true;
+                            bullet2.TravelingLeftward = false;
+                            bullet2.TravelingDownward = false;
+                            bullet2.TravelingUpward = false;
                         }
                     }
                 }
-            }*/
+            }
 
         }
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
@@ -335,20 +346,21 @@ namespace FinalProject
 
         async Task CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender)
         {
-            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankRight.png");
-            tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankLeft.png");
-            tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankUp.png");
-            tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/demoTankDown.png");
+            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/redtank_90x90.png");
+            tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankLeft.png");
+            tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankTop.png");
+            tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankBottom.png");
             ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
 
             tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
-            tank2 = new Tank(1000, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
+            tank2 = new Tank(500, 300, 5, tankimage2, tankimage2, tankimage, tankimage3, tankimage4);
             bullet = new Ball(2200, tank.Y, 10, ballImage);
-            leftwall = new Wall(20, 10, 20, 750, Colors.DarkSeaGreen);
-            rightwall = new Wall(1510, 10, 1510, 750, Colors.DarkSeaGreen);
-            topwall = new Wall(20, 10, 1510, 10, Colors.DarkSeaGreen);
-            bottomwall = new Wall(20, 750, 1510, 750, Colors.DarkSeaGreen);
+            leftwall = new Wall(20, 10, 20, 750, Colors.CornflowerBlue);
+            rightwall = new Wall(930, 10, 930, 520, Colors.CornflowerBlue);
+            topwall = new Wall(20, 10, 1510, 10, Colors.CornflowerBlue);
+            bottomwall = new Wall(20, 520, 930, 520, Colors.CornflowerBlue);
             bullet2 = new Ball(2200, 200, 10, ballImage);
+            canvasScoreTextFormat = new CanvasTextFormat();
         }
     
 
@@ -538,6 +550,5 @@ namespace FinalProject
             }
         }
 
-        
     }
 }

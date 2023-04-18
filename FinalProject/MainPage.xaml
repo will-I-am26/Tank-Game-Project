@@ -12,11 +12,9 @@
     <Grid>
         <canvas:CanvasControl Draw="CanvasControl_Draw" ClearColor="CornflowerBlue"/>
         <canvas:CanvasAnimatedControl x:Name="canvas" Draw="Canvas_Draw" Update="Canvas_Update" CreateResources="Canvas_CreateResources"  />
-        <Rectangle x:Name="leftWallRect" HorizontalAlignment="Left" Height="520" Margin="46,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="31" Fill="#FFA49999"/>
-        <Rectangle x:Name="rightwallRect" HorizontalAlignment="Left" Height="520" Margin="875,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="35" Fill="#FFC0AFAF"/>
-        <Rectangle x:Name="topwallRect" HorizontalAlignment="Left" Height="35" Margin="47,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="863" Fill="#FFC0ADAD"/>
-        <Rectangle x:Name="bottomwallRect" HorizontalAlignment="Left" Height="33" Margin="46,497,0,0" Stroke="Black" VerticalAlignment="Top" Width="863" Fill="#FFBDA8A8"/>
-        <TextBox x:Name="scoreTextBoxForPlayer1" HorizontalAlignment="Left" Margin="133,13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="0.491,0.401"/>
-        <TextBox x:Name="scoreTextBoxforPlayer2" HorizontalAlignment="Left" Margin="697,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <Rectangle x:Name="leftWallRect" HorizontalAlignment="Left" Height="490" Margin="46,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="15" Fill="#FFA49999"/>
+        <Rectangle x:Name="rightwallRect" HorizontalAlignment="Left" Height="490" Margin="875,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="15" Fill="#FFC0AFAF"/>
+        <Rectangle x:Name="topwallRect" HorizontalAlignment="Left" Height="15" Margin="47,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="840"/>
+        <Rectangle x:Name="bottomwallRect" HorizontalAlignment="Left" Height="15" Margin="46,497,0,0" Stroke="Black" VerticalAlignment="Top" Width="835" Fill="#FFBDA8A8"/>
     </Grid>
 </Page>
