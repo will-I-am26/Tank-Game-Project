@@ -161,7 +161,7 @@ namespace FinalProject
             {
                 if (tank1.score == 0)
                 {
-                    MessageDialog dialogMsg = new MessageDialog("Player 1 Wins!");
+                    MessageDialog dialogMsg = new MessageDialog("Player 2 Wins!");
                     UICommand HomeButton = new UICommand("Homepage");
                     dialogMsg.Commands.Add(HomeButton);
                     HomeButton.Invoked = dialogButtonHandler;
@@ -169,7 +169,7 @@ namespace FinalProject
                 }
                 else if(tank2.score==0)
                 {
-                    MessageDialog dialogMsg = new MessageDialog("Player 2 Wins!");
+                    MessageDialog dialogMsg = new MessageDialog("Player 1 Wins!");
                     UICommand HomeButton = new UICommand("Homepage");
                     dialogMsg.Commands.Add(HomeButton);
                     HomeButton.Invoked = dialogButtonHandler;
