@@ -14,7 +14,7 @@
             <ImageBrush/>
         </Grid.Background>
         <canvas:CanvasControl Draw="CanvasControl_Draw" ClearColor="CornflowerBlue"/>
-        <Button x:Name="PlaygameButton" Content="Play game!" Margin="148,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="PlaygameButton_Click"/>
+        <Button x:Name="PlaygameButton" Content="Play game!" Margin="148,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="PlaygameButton_Click" Width="106"/>
         <Button x:Name="InstructionButton" Content="Instruction" Margin="414,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontWeight="Bold" FontSize="18" Click="InstructionButton_Click"/>
         <Button x:Name="CreditButton" Content="Credits" Margin="704,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="CreditButton_Click"/>
 

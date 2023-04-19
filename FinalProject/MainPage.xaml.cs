@@ -15,6 +15,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Gaming.Input;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -138,7 +139,14 @@ namespace FinalProject
                 //TODO - destroy bullet
             }
         }
-        private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+
+        public void dialogButtonHandler(IUICommand com)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            rootFrame.Navigate(typeof(Homepage));
+        }
+        private async void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             bullet1.Update();
             bullet2.Update();
@@ -149,6 +157,28 @@ namespace FinalProject
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
             Rect bulletRect = new Rect(bullet1.X, bullet1.Y, 10, 10);
             Rect bullet2Rect = new Rect(bullet2.X, bullet2.Y, 10, 10);
+            if(tank1.score==0 || tank2.score == 0)
+            {
+                if (tank1.score == 0)
+                {
+                    MessageDialog dialogMsg = new MessageDialog("Player 1 Wins!");
+                    UICommand HomeButton = new UICommand("Homepage");
+                    dialogMsg.Commands.Add(HomeButton);
+                    HomeButton.Invoked = dialogButtonHandler;
+                    await dialogMsg.ShowAsync();
+                }
+                else if(tank2.score==0)
+                {
+                    MessageDialog dialogMsg = new MessageDialog("Player 2 Wins!");
+                    UICommand HomeButton = new UICommand("Homepage");
+                    dialogMsg.Commands.Add(HomeButton);
+                    HomeButton.Invoked = dialogButtonHandler;
+                    await dialogMsg.ShowAsync();
+                }
+               
+                
+                
+            }
 
             if (Intersects(bulletRect, tank2Rect))
             {
@@ -317,6 +347,7 @@ namespace FinalProject
             bullet2 = new Ball(2200, 200, 5, ballImage);
             //200->tank.Y ?
             canvasScoreTextFormat = new CanvasTextFormat();
+            
         }
 
 

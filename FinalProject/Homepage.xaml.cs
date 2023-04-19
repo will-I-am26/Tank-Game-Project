@@ -26,6 +26,7 @@ namespace FinalProject
         public Homepage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         private void CreditButton_Click(object sender, RoutedEventArgs e)
