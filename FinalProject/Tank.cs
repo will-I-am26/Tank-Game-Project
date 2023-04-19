@@ -195,7 +195,17 @@ namespace FinalProject
             X1 = x1;
             Y1 = y1;
             Color = color;
-            rect = new Rect(X0, Y0, WIDTH, Y1 - Y0);   //Create a rect class (for collision) automatically
+
+            //Create a rect class (for collision) automatically:
+            if (x0 != x1)    //wide
+            {
+                rect = new Rect(new Point(x0, y0), new Point(x1, y1));
+            }
+            else            //tall
+            {//TODO remove?
+                rect = new Rect(X0, Y0, WIDTH, Y1 - Y0);
+            }
+             
         }
 
 

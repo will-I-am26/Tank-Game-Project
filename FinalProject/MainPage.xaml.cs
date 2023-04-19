@@ -101,7 +101,7 @@ namespace FinalProject
             }
 
         }
-        public void HandleCollision(Tank tankObj, Rect tankRect, Rect bulletRect, GamepadReading reading)
+        public void HandleCollision(Tank tankObj, Rect tankRect, GamepadReading reading)
         {
             foreach (var wall in everyWall.GetWalls())
             {
@@ -180,7 +180,7 @@ namespace FinalProject
                 controller = Gamepad.Gamepads.First();
                 var reading = controller.GetCurrentReading();
 
-                HandleCollision(tank, tank1Rect, bulletRect, reading);
+                HandleCollision(tank, tank1Rect, reading);
 
                 tank.X += (int)(reading.LeftThumbstickX * 5);
                 tank.Y += (int)(reading.LeftThumbstickY * -5);
@@ -267,7 +267,7 @@ namespace FinalProject
                 controller2 = Gamepad.Gamepads.ElementAt(1);
                 var reading = controller2.GetCurrentReading();
 
-                HandleCollision(tank2, tank1Rect, bulletRect, reading);
+                HandleCollision(tank2, tank1Rect, reading);
 
                 tank2.X += (int)(reading.LeftThumbstickX * 5);
                 tank2.Y += (int)(reading.LeftThumbstickY * -5);
@@ -357,13 +357,13 @@ namespace FinalProject
 
         async Task CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender)
         {
-            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/redtank_90x90.png");
+            tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/redtankRight.png");
             tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankLeft.png");
             tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankTop.png");
             tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankBottom.png");
             ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
 
-            bluetankimage = await CanvasBitmap.LoadAsync(sender, "Assets/bluetank_90x90.png");
+            bluetankimage = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankRight.png");
             bluetankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankLeft.png");
             bluetankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankTop.png");
             bluetankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankBottom.png");
