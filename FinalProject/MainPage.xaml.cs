@@ -151,6 +151,7 @@ namespace FinalProject
             }
         }
 
+        //based on https://stackoverflow.com/questions/33414268/show-messagedialog-from-app-xaml-cs-in-windows-store-app with some modification
         public async void showUpdateMessage()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
@@ -166,6 +167,7 @@ namespace FinalProject
             });
         }
 
+        //based on https://stackoverflow.com/questions/33414268/show-messagedialog-from-app-xaml-cs-in-windows-store-app with some modification
         public async void showUpdateMessage2()
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
@@ -192,8 +194,6 @@ namespace FinalProject
         {
             bullet1.Update();
             bullet2.Update();
-            // tankOneScoreTextBlock.Text = $"Tank two's life: {tank2.score}";
-            //tankOneScoreTextBlock.Text = $"Tank one's life: {tank.score}";
 
             Rect tank1Rect = new Rect(new Point(tank1.X, tank1.Y), tank1.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
