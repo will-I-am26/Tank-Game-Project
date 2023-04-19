@@ -71,6 +71,8 @@ namespace FinalProject
         private Gamepad controller2;
         CanvasTextFormat canvasScoreTextFormat;
 
+        int updateTicker = 0;
+
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             tank1.Draw(args.DrawingSession);
@@ -109,40 +111,34 @@ namespace FinalProject
                 {
                     isCollides = true;
 
-                    if (wall.horizontal)
-                    {
+                    ///if (wall.horizontal)
                         if ((float)reading.LeftThumbstickX < 0) //Float, not int. Otherwise the value from -1 to 1 will be truncated
                         {//Left
                             tankObj.TravelingLeftward = false;
-                            tankObj.X = originalPos.X + 1;
+                            tankObj.X = originalPos.X + 3;
                         }
                         else if ((float)reading.LeftThumbstickX > 0)
                         {//Right
                             tankObj.TravelingRightward = false;
-                            tankObj.X = originalPos.X - 1;
+                            tankObj.X = originalPos.X - 3;
                         }
-                    }
-                    else
-                    {
+                    ///else
                         if ((float)reading.LeftThumbstickY > 0)
                         {//Up
                             tankObj.TravelingUpward = false;
-                            tankObj.Y = originalPos.Y + 1;
+                            tankObj.Y = originalPos.Y + 3;
                         }
                         else if ((float)reading.LeftThumbstickY < 0)
                         {//Down
                             tankObj.TravelingDownward = false;
-                            tankObj.Y = originalPos.Y - 1;
+                            tankObj.Y = originalPos.Y - 3;
                         }
-                    }
                 }
                 //TODO - destroy bullet
             }
         }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            tank1.Update();
-            tank2.Update();
             bullet1.Update();
             bullet2.Update();
             // tankOneScoreTextBlock.Text = $"Tank two's life: {tank2.score}";
@@ -183,6 +179,8 @@ namespace FinalProject
                 tank2.Y += 5;
             }
 
+            const double changeDirMagn = 0.7;
+
             // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
             if (Gamepad.Gamepads.Count > 0)
             {
@@ -195,7 +193,9 @@ namespace FinalProject
 
                 HandleCollision(tank1, tank1Rect, reading, originalPos);
 
-                if ((int)reading.LeftThumbstickX < 0)
+                tank1.Update();
+
+                if (reading.LeftThumbstickX < -changeDirMagn)
                 {
                     tank1.TravelingLeftward = true;
                 }
@@ -203,7 +203,7 @@ namespace FinalProject
                 {
                     tank1.TravelingLeftward = false;
                 }
-                if ((int)reading.LeftThumbstickX > 0)
+                if (reading.LeftThumbstickX > changeDirMagn)
                 {
                     tank1.TravelingRightward = true;
                 }
@@ -211,7 +211,7 @@ namespace FinalProject
                 {
                     tank1.TravelingRightward = false;
                 }
-                if ((int)reading.LeftThumbstickY > 0)
+                if (reading.LeftThumbstickY > changeDirMagn)
                 {
                     tank1.TravelingUpward = true;
                 }
@@ -219,7 +219,7 @@ namespace FinalProject
                 {
                     tank1.TravelingUpward = false;
                 }
-                if ((int)reading.LeftThumbstickY < 0)
+                if (reading.LeftThumbstickY < -changeDirMagn)
                 {
                     tank1.TravelingDownward = true;
                 }
@@ -229,6 +229,7 @@ namespace FinalProject
                 }
                 if (reading.RightTrigger > 0)
                 {
+                    //names - bulletYours & bulletEnemy
                     if (bullet1.X > 1200 || bullet1.X < 0 || bullet1.Y < 0 || bullet1.Y > 950)
                     {
                         if (tank1.image == tankimage4)
@@ -283,7 +284,9 @@ namespace FinalProject
                 tank2.Y += (int)(reading.LeftThumbstickY * -5);
                 HandleCollision(tank2, tank2Rect, reading, originalPos);
 
-                if ((int)reading.LeftThumbstickX < 0)
+                tank2.Update();
+
+                if ((int)reading.LeftThumbstickX < -changeDirMagn)
                 {
                     tank2.TravelingLeftward = true;
                 }
@@ -291,7 +294,7 @@ namespace FinalProject
                 {
                     tank2.TravelingLeftward = false;
                 }
-                if ((int)reading.LeftThumbstickX > 0)
+                if ((int)reading.LeftThumbstickX > changeDirMagn)
                 {
                     tank2.TravelingRightward = true;
                 }
@@ -299,7 +302,7 @@ namespace FinalProject
                 {
                     tank2.TravelingRightward = false;
                 }
-                if ((int)reading.LeftThumbstickY > 0)
+                if ((int)reading.LeftThumbstickY > changeDirMagn)
                 {
                     tank2.TravelingUpward = true;
                 }
@@ -307,7 +310,7 @@ namespace FinalProject
                 {
                     tank2.TravelingUpward = false;
                 }
-                if ((int)reading.LeftThumbstickY < 0)
+                if ((int)reading.LeftThumbstickY < -changeDirMagn)
                 {
                     tank2.TravelingDownward = true;
                 }
