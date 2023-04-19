@@ -11,10 +11,12 @@ using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Gaming.Input;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,6 +49,7 @@ namespace FinalProject
             Window.Current.CoreWindow.KeyUp += Canvas_KeyUp;
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
+
         }
 
         Tank tank1;
@@ -89,7 +92,6 @@ namespace FinalProject
             canvasScoreTextFormat.FontFamily = "cambria";
             args.DrawingSession.DrawText($"Player One's life: {tank1.score}", 70, 10, Colors.Red, canvasScoreTextFormat);
             args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 10, Colors.Red, canvasScoreTextFormat);
-
         }
 
         public bool Intersects(Rect r1, Rect r2)
@@ -149,11 +151,42 @@ namespace FinalProject
             }
         }
 
+        public async void showUpdateMessage()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                MessageDialog dialogMsg = new MessageDialog("Player 1 Wins!");
+                UICommand HomeButton = new UICommand("Homepage");
+                dialogMsg.Commands.Add(HomeButton);
+                HomeButton.Invoked = dialogButtonHandler;
+                dialogMsg.ShowAsync();
+                
+               
+            });
+        }
+
+        public async void showUpdateMessage2()
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                MessageDialog dialogMsg = new MessageDialog("Player 2 Wins!");
+                UICommand HomeButton = new UICommand("Homepage");
+                dialogMsg.Commands.Add(HomeButton);
+                HomeButton.Invoked = dialogButtonHandler;
+                dialogMsg.ShowAsync();
+               
+            });
+        }
+
+
         public void dialogButtonHandler(IUICommand com)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
             rootFrame.Navigate(typeof(Homepage));
+
         }
         private async void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
@@ -164,25 +197,19 @@ namespace FinalProject
 
             Rect tank1Rect = new Rect(new Point(tank1.X, tank1.Y), tank1.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-            if(tank1.score==0 || tank2.score == 0)
+
+            if (tank1.score <= 0 || tank2.score <= 0)
             {
-                if (tank1.score == 0)
+                if (tank1.score <= 0)
                 {
-                    MessageDialog dialogMsg = new MessageDialog("Player 2 Wins!");
-                    UICommand HomeButton = new UICommand("Homepage");
-                    dialogMsg.Commands.Add(HomeButton);
-                    HomeButton.Invoked = dialogButtonHandler;
-                    await dialogMsg.ShowAsync();
+                    showUpdateMessage2();
                 }
-                else if(tank2.score==0)
+                else if (tank2.score <= 0)
                 {
-                    MessageDialog dialogMsg = new MessageDialog("Player 1 Wins!");
-                    UICommand HomeButton = new UICommand("Homepage");
-                    dialogMsg.Commands.Add(HomeButton);
-                    HomeButton.Invoked = dialogButtonHandler;
-                    await dialogMsg.ShowAsync();
+                    showUpdateMessage();
                 }
             }
+
 
             if (Intersects(bullet1.rect, tank2Rect))
             {
