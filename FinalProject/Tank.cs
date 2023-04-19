@@ -66,22 +66,22 @@ namespace FinalProject
 
             if (TravelingDownward)
             {
-                Y += Speed;
+                //Y += Speed;
                 image = downImage;
             }
             if (TravelingUpward)
             {
-                Y -= Speed;
+                //Y -= Speed;
                 image = upImage;
             }
             if (TravelingLeftward)
             {
-                X -= Speed;
+                //X -= Speed;
                 image = leftImage;
             }
             if (TravelingRightward)
             {
-                X += Speed;
+                //X += Speed;
                 image = rightImage;
             }
         }
@@ -189,6 +189,7 @@ namespace FinalProject
         public int X1 { get; set; }
 
         public int Y1 { get; set; }
+        public bool horizontal { get; set; }
 
         public Color Color { get; set; }
 
@@ -206,18 +207,20 @@ namespace FinalProject
             if (x0 != x1)    //wide
             {
                 rect = new Rect(new Point(x0, y0), new Point(x1, y1));
+                horizontal = false;
             }
             else            //tall
             {//TODO remove?
                 rect = new Rect(X0, Y0, WIDTH, Y1 - Y0);
-            }
-             
+                horizontal = true;
+            }             
         }
 
 
         public void Draw(CanvasDrawingSession canvas)
         {
-            canvas.DrawLine(X0, Y0, X1, Y1, Color, WIDTH);
+            ///canvas.DrawLine(X0, Y0, X1, Y1, Color, WIDTH);
+            canvas.DrawRectangle(rect, Color);
         }
 
         // some of the line of code is From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs
