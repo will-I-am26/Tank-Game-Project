@@ -25,17 +25,13 @@ namespace FinalProject
         public int Speed { get; set; }
 
         public CanvasBitmap image;
-
-        private CanvasBitmap leftImage;
-
-        private CanvasBitmap rightImage;
-
-        private CanvasBitmap upImage;
-
-        private CanvasBitmap downImage;
+        public CanvasBitmap leftImage { get; private set; }
+        public CanvasBitmap rightImage { get; private set; }
+        public CanvasBitmap upImage { get; private set; }
+        public CanvasBitmap downImage { get; private set; }
+        public (bool left, bool right, bool up, bool down) direction;
 
         public int score;
-
 
         public bool TravelingDownward { get; set; }
         public bool TravelingLeftward { get; set; }
@@ -58,31 +54,38 @@ namespace FinalProject
             TravelingRightward = false;
             TravelingUpward= false;
             score = 20;
-     
+
+            if(this.image == this.leftImage)
+                direction = (true, false, false, false);
+            if(this.image == this.rightImage)
+                direction = (false, true, false, false);
         }
 
         public void Update()
-        {
-
+        {            
             if (TravelingDownward)
             {
                 //Y += Speed;
                 image = downImage;
+                direction = (false, false, false, true);
             }
             if (TravelingUpward)
             {
                 //Y -= Speed;
                 image = upImage;
+                direction = (false, false, true, false);
             }
             if (TravelingLeftward)
             {
                 //X -= Speed;
                 image = leftImage;
+                direction = (true, false, false, false);
             }
             if (TravelingRightward)
             {
                 //X += Speed;
                 image = rightImage;
+                direction = (false, true, false, false);
             }
         }
 

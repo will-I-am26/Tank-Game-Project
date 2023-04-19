@@ -72,6 +72,7 @@ namespace FinalProject
         CanvasTextFormat canvasScoreTextFormat;
 
         const int topB = 30, bottomB = 520, leftB = 20, rightB = 930;
+        const double changeDirMagn = 0.7;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
@@ -179,191 +180,110 @@ namespace FinalProject
                 tank2.Y += 5;
             }
 
-            const double changeDirMagn = 0.7;
-
-            // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
             if (Gamepad.Gamepads.Count > 0)
             {
-                controller = Gamepad.Gamepads.First();
-                var reading = controller.GetCurrentReading();
-
-                (int X, int Y) originalPos = (tank1.X, tank1.Y);
-                tank1.X += (int)(reading.LeftThumbstickX * 5);
-                tank1.Y += (int)(reading.LeftThumbstickY * -5);
-
-                HandleCollision(tank1, tank1Rect, reading, originalPos);
-
-                tank1.Update();
-
-                if (reading.LeftThumbstickX < -changeDirMagn)
-                {
-                    tank1.TravelingLeftward = true;
-                }
-                else
-                {
-                    tank1.TravelingLeftward = false;
-                }
-                if (reading.LeftThumbstickX > changeDirMagn)
-                {
-                    tank1.TravelingRightward = true;
-                }
-                else
-                {
-                    tank1.TravelingRightward = false;
-                }
-                if (reading.LeftThumbstickY > changeDirMagn)
-                {
-                    tank1.TravelingUpward = true;
-                }
-                else
-                {
-                    tank1.TravelingUpward = false;
-                }
-                if (reading.LeftThumbstickY < -changeDirMagn)
-                {
-                    tank1.TravelingDownward = true;
-                }
-                else
-                {
-                    tank1.TravelingDownward = false;
-                }
-                if (reading.RightTrigger > 0)
-                {
-                    //names - bulletYours & bulletEnemy
-                    if (bullet1.X > rightB || bullet1.X < leftB || bullet1.Y < topB || bullet1.Y > bottomB)
-                    {
-                        if (tank1.image == tankimage4)
-                        {
-                            bullet1.X = tank1.X + 50;
-                            bullet1.Y = tank1.Y + 65;
-                            bullet1.TravelingDownward = true;
-                            bullet1.TravelingLeftward = false;
-                            bullet1.TravelingUpward = false;
-                            bullet1.TravelingRightward = false;
-                        }
-                        if (tank1.image == tankimage2)
-                        {
-                            bullet1.X = tank1.X + 10;
-                            bullet1.Y = tank1.Y + 34;
-                            bullet1.TravelingLeftward = true;
-                            bullet1.TravelingDownward = false;
-                            bullet1.TravelingUpward = false;
-                            bullet1.TravelingRightward = false;
-                        }
-                        if (tank1.image == tankimage3)
-                        {
-                            bullet1.X = tank1.X + 32;
-                            bullet1.Y = tank1.Y + 15;
-                            bullet1.TravelingUpward = true;
-                            bullet1.TravelingRightward = false;
-                            bullet1.TravelingLeftward = false;
-                            bullet1.TravelingDownward = false;
-                        }
-                        if (tank1.image == tankimage)
-                        {
-                            bullet1.X = tank1.X + 80;
-                            bullet1.Y = tank1.Y + 30;
-                            bullet1.TravelingRightward = true;
-                            bullet1.TravelingLeftward = false;
-                            bullet1.TravelingDownward = false;
-                            bullet1.TravelingUpward = false;
-                        }
-                    }
-
-                }
+                UpdatePlayer(0, tank1, tank1Rect, bullet1);
             }
 
-            // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
             if (Gamepad.Gamepads.Count > 1)
             {
-                controller2 = Gamepad.Gamepads.ElementAt(1);
-                var reading = controller2.GetCurrentReading();
-
-                (int X, int Y) originalPos = (tank2.X, tank2.Y);
-                tank2.X += (int)(reading.LeftThumbstickX * 5);
-                tank2.Y += (int)(reading.LeftThumbstickY * -5);
-                HandleCollision(tank2, tank2Rect, reading, originalPos);
-
-                tank2.Update();
-
-                if ((int)reading.LeftThumbstickX < -changeDirMagn)
-                {
-                    tank2.TravelingLeftward = true;
-                }
-                else
-                {
-                    tank2.TravelingLeftward = false;
-                }
-                if ((int)reading.LeftThumbstickX > changeDirMagn)
-                {
-                    tank2.TravelingRightward = true;
-                }
-                else
-                {
-                    tank2.TravelingRightward = false;
-                }
-                if ((int)reading.LeftThumbstickY > changeDirMagn)
-                {
-                    tank2.TravelingUpward = true;
-                }
-                else
-                {
-                    tank2.TravelingUpward = false;
-                }
-                if ((int)reading.LeftThumbstickY < -changeDirMagn)
-                {
-                    tank2.TravelingDownward = true;
-                }
-                else
-                {
-                    tank2.TravelingDownward = false;
-                }
-
-                if (reading.RightTrigger > 0)
-                {
-                    if (bullet2.X > rightB || bullet2.X < leftB || bullet2.Y < topB || bullet2.Y > bottomB)
-                    {
-                        if (tank2.image == bluetankimage4)
-                        {
-                            bullet2.X = tank2.X + 50;
-                            bullet2.Y = tank2.Y + 65;
-                            bullet2.TravelingDownward = true;
-                            bullet2.TravelingLeftward = false;
-                            bullet2.TravelingUpward = false;
-                            bullet2.TravelingRightward = false;
-                        }
-                        if (tank2.image == bluetankimage2)
-                        {
-                            bullet2.X = tank2.X + 10;
-                            bullet2.Y = tank2.Y + 34;
-                            bullet2.TravelingLeftward = true;
-                            bullet2.TravelingDownward = false;
-                            bullet2.TravelingUpward = false;
-                            bullet2.TravelingRightward = false;
-                        }
-                        if (tank2.image == bluetankimage3)
-                        {
-                            bullet2.X = tank2.X + 32;
-                            bullet2.Y = tank2.Y + 15;
-                            bullet2.TravelingUpward = true;
-                            bullet2.TravelingRightward = false;
-                            bullet2.TravelingLeftward = false;
-                            bullet2.TravelingDownward = false;
-                        }
-                        if (tank2.image == bluetankimage)
-                        {
-                            bullet2.X = tank2.X + 80;
-                            bullet2.Y = tank2.Y + 30;
-                            bullet2.TravelingRightward = true;
-                            bullet2.TravelingLeftward = false;
-                            bullet2.TravelingDownward = false;
-                            bullet2.TravelingUpward = false;
-                        }
-                    }
-                }
+                UpdatePlayer(0, tank2, tank2Rect, bullet2);
             }
 
         }
+
+        // Based on: https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
+        private void UpdatePlayer(int controllerID, Tank tank, Rect tankRect, Ball bullet)
+        {
+            controller = Gamepad.Gamepads.ElementAt(controllerID);
+            var reading = controller.GetCurrentReading();
+
+            (int X, int Y) originalPos = (tank.X, tank.Y);
+            tank.X += (int)(reading.LeftThumbstickX * 5);
+            tank.Y += (int)(reading.LeftThumbstickY * -5);
+
+            HandleCollision(tank, tankRect, reading, originalPos);
+
+            tank.Update();
+
+            if (reading.LeftThumbstickX < -changeDirMagn)
+            {
+                tank.TravelingLeftward = true;
+            }
+            else
+            {
+                tank.TravelingLeftward = false;
+            }
+            if (reading.LeftThumbstickX > changeDirMagn)
+            {
+                tank.TravelingRightward = true;
+            }
+            else
+            {
+                tank.TravelingRightward = false;
+            }
+            if (reading.LeftThumbstickY > changeDirMagn)
+            {
+                tank.TravelingUpward = true;
+            }
+            else
+            {
+                tank.TravelingUpward = false;
+            }
+            if (reading.LeftThumbstickY < -changeDirMagn)
+            {
+                tank.TravelingDownward = true;
+            }
+            else
+            {
+                tank.TravelingDownward = false;
+            }
+            if (reading.RightTrigger > 0)
+            {
+                //names - bulletYours & bulletEnemy
+                if (bullet.X > rightB || bullet.X < leftB || bullet.Y < topB || bullet.Y > bottomB)
+                {
+                    if (tank.direction.down)
+                    {
+                        bullet.X = tank.X + 50;
+                        bullet.Y = tank.Y + 65;
+                        bullet.TravelingDownward = true;
+                        bullet.TravelingLeftward = false;
+                        bullet.TravelingUpward = false;
+                        bullet.TravelingRightward = false;
+                    }
+                    if (tank.direction.left)
+                    {
+                        bullet.X = tank.X + 10;
+                        bullet.Y = tank.Y + 34;
+                        bullet.TravelingLeftward = true;
+                        bullet.TravelingDownward = false;
+                        bullet.TravelingUpward = false;
+                        bullet.TravelingRightward = false;
+                    }
+                    if (tank.direction.up)
+                    {
+                        bullet.X = tank.X + 32;
+                        bullet.Y = tank.Y + 15;
+                        bullet.TravelingUpward = true;
+                        bullet.TravelingRightward = false;
+                        bullet.TravelingLeftward = false;
+                        bullet.TravelingDownward = false;
+                    }
+                    if (tank.direction.right)
+                    {
+                        bullet.X = tank.X + 80;
+                        bullet.Y = tank.Y + 30;
+                        bullet.TravelingRightward = true;
+                        bullet.TravelingLeftward = false;
+                        bullet.TravelingDownward = false;
+                        bullet.TravelingUpward = false;
+                    }
+                }
+
+            }
+        }
+
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(CreateResources(sender).AsAsyncAction());
@@ -378,13 +298,13 @@ namespace FinalProject
             tankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankLeft.png");
             tankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankTop.png");
             tankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/redtankBottom.png");
-            ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
 
             bluetankimage = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankRight.png");
             bluetankimage2 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankLeft.png");
             bluetankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankTop.png");
             bluetankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankBottom.png");
 
+            ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
             tank1 = new Tank(50, 300, 5, tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet1 = new Ball(2200, tank1.Y, 5, ballImage);
