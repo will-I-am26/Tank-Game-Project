@@ -183,7 +183,7 @@ namespace FinalProject
 
     public class Wall : IDrawable, ICollidable
     {
-        public int WIDTH = 5;
+        public int width;
         public int X0 { get; set; }
         public int Y0 { get; set; }
         public int X1 { get; set; }
@@ -191,26 +191,27 @@ namespace FinalProject
         public int Y1 { get; set; }
         public bool horizontal { get; set; } = false;
 
-        public Color Color { get; set; }
+        public Color color { get; set; }
 
         public Rect rect { get; private set; }
 
-        public Wall(int x0, int y0, int x1, int y1, Color color)
+        public Wall(int x0, int y0, int x1, int y1, Color color, int width = 10)
         {
             X0 = x0;
             Y0 = y0;
             X1 = x1;
             Y1 = y1;
-            Color = color;
+            this.color = color;
+            this.width = width;
 
             //wide
             if (x0 != x1)
             {
-                Y1 += WIDTH;
+                Y1 += width;
             }
             else
             {
-                X1 += WIDTH;
+                X1 += width;
             }
 
 
@@ -224,11 +225,14 @@ namespace FinalProject
             ///horizontal = true;
         }
 
-
+        /* refr:
+        https://learn.microsoft.com/en-us/dotnet/api/communitytoolkit.winui.ui.media.geometry.icanvasstroke?view=win-comm-toolkit-dotnet-7.0    
+        https://microsoft.github.io/Win2D/WinUI3/html/T_Microsoft_Graphics_Canvas_Geometry_CanvasStrokeStyle.htm
+         */
         public void Draw(CanvasDrawingSession canvas)
         {
             ///canvas.DrawLine(X0, Y0, X1, Y1, Color, WIDTH);
-            canvas.DrawRectangle(rect, Color);
+            canvas.FillRectangle(rect, color);
         }
 
         // some of the line of code is From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs
@@ -239,7 +243,7 @@ namespace FinalProject
 
         public bool ColllidesRightEdge(int x, int y, int speed)
         {
-            return Math.Abs(x - (X0 + WIDTH)) - speed <= 0 && y >= Y0 && y <= Y1;
+            return Math.Abs(x - (X0 + width)) - speed <= 0 && y >= Y0 && y <= Y1;
         }
 
         public bool CollidesTopEdge(int x, int y, int speed)
@@ -249,7 +253,7 @@ namespace FinalProject
 
         public bool CoolidesBottomEdge(int x, int y, int speed)
         {
-            return x >= X0 && x <= X1 && y - speed <= Y0 + WIDTH;
+            return x >= X0 && x <= X1 && y - speed <= Y0 + width;
         }
     }
 

@@ -71,7 +71,7 @@ namespace FinalProject
         private Gamepad controller2;
         CanvasTextFormat canvasScoreTextFormat;
 
-        int updateTicker = 0;
+        const int topB = 30, bottomB = 520, leftB = 20, rightB = 930;
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
@@ -230,7 +230,7 @@ namespace FinalProject
                 if (reading.RightTrigger > 0)
                 {
                     //names - bulletYours & bulletEnemy
-                    if (bullet1.X > 1200 || bullet1.X < 0 || bullet1.Y < 0 || bullet1.Y > 950)
+                    if (bullet1.X > rightB || bullet1.X < leftB || bullet1.Y < topB || bullet1.Y > bottomB)
                     {
                         if (tank1.image == tankimage4)
                         {
@@ -321,7 +321,7 @@ namespace FinalProject
 
                 if (reading.RightTrigger > 0)
                 {
-                    if (bullet2.X > 1200 || bullet2.X < 0 || bullet2.Y < 0 || bullet2.Y > 950)
+                    if (bullet2.X > rightB || bullet2.X < leftB || bullet2.Y < topB || bullet2.Y > bottomB)
                     {
                         if (tank2.image == bluetankimage4)
                         {
@@ -388,12 +388,12 @@ namespace FinalProject
             tank1 = new Tank(50, 300, 5, tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet1 = new Ball(2200, tank1.Y, 5, ballImage);
-
+            
             everyWall = new WallCollection();
-            everyWall.Add(new Wall(20, 10, 20, 520, Colors.Red));    //left
-            everyWall.Add(new Wall(930, 10, 930, 520, Colors.Red));  //right
-            everyWall.Add(new Wall(20, 10, 930, 10, Colors.Red));   //top
-            everyWall.Add(new Wall(20, 520, 930, 520, Colors.Red));  //bottom
+            everyWall.Add(new Wall(leftB, topB, leftB, bottomB, Colors.Red));    //left
+            everyWall.Add(new Wall(rightB, topB, rightB, bottomB, Colors.Red));  //right
+            everyWall.Add(new Wall(leftB, topB, rightB, topB, Colors.Red));   //top
+            everyWall.Add(new Wall(leftB, bottomB, rightB + 10, bottomB, Colors.Red));  //bottom
             bullet2 = new Ball(2200, 200, 5, ballImage);
             //200->tank.Y ?
             canvasScoreTextFormat = new CanvasTextFormat();
