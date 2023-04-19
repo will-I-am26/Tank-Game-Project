@@ -105,10 +105,11 @@ namespace FinalProject
             }
 
         }
-        public void HandleCollision(Tank tankObj, Rect tankRect, GamepadReading reading, (int X, int Y) originalPos)
+        public void HandleCollision(Tank tankObj, Rect tankRect, Ball bullet, GamepadReading reading, (int X, int Y) originalPos)
         {
             foreach (var wall in everyWall.GetWalls())
             {
+                //stop tank from moving
                 if (Intersects(wall.rect, tankRect))
                 {
                     isCollides = true;
@@ -136,7 +137,15 @@ namespace FinalProject
                             tankObj.Y = originalPos.Y - 3;
                         }
                 }
-                //TODO - destroy bullet
+                //destroy bullet
+                if (Intersects(wall.rect, bullet.rect))
+                {
+                    bullet.X = -1000;
+                    bullet.TravelingLeftward = false;
+                    bullet.TravelingRightward = false;
+                    bullet.TravelingUpward = false;
+                    bullet.TravelingDownward = false;
+                }
             }
         }
 
@@ -155,8 +164,6 @@ namespace FinalProject
 
             Rect tank1Rect = new Rect(new Point(tank1.X, tank1.Y), tank1.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-            Rect bulletRect = new Rect(bullet1.X, bullet1.Y, 10, 10);
-            Rect bullet2Rect = new Rect(bullet2.X, bullet2.Y, 10, 10);
             if(tank1.score==0 || tank2.score == 0)
             {
                 if (tank1.score == 0)
@@ -175,12 +182,9 @@ namespace FinalProject
                     HomeButton.Invoked = dialogButtonHandler;
                     await dialogMsg.ShowAsync();
                 }
-               
-                
-                
             }
 
-            if (Intersects(bulletRect, tank2Rect))
+            if (Intersects(bullet1.rect, tank2Rect))
             {
                 isCollides = true;
                 tank2.score--;
@@ -191,7 +195,7 @@ namespace FinalProject
                 bullet1.TravelingDownward = false;
             }
 
-            if (Intersects(bullet2Rect, tank1Rect))
+            if (Intersects(bullet2.rect, tank1Rect))
             {
                 isCollides = true;
                 tank1.score--;
@@ -232,7 +236,7 @@ namespace FinalProject
             tank.X += (int)(reading.LeftThumbstickX * 5);
             tank.Y += (int)(reading.LeftThumbstickY * -5);
 
-            HandleCollision(tank, tankRect, reading, originalPos);
+            HandleCollision(tank, tankRect, bullet, reading, originalPos);
 
             tank.Update();
 
@@ -344,6 +348,7 @@ namespace FinalProject
             everyWall.Add(new Wall(rightB, topB, rightB, bottomB, Colors.Red));  //right
             everyWall.Add(new Wall(leftB, topB, rightB, topB, Colors.Red));   //top
             everyWall.Add(new Wall(leftB, bottomB, rightB + 10, bottomB, Colors.Red));  //bottom
+            everyWall.Add(new Wall(300, 100, 300, 400, Colors.Red));  //bottom
             bullet2 = new Ball(2200, 200, 5, ballImage);
             //200->tank.Y ?
             canvasScoreTextFormat = new CanvasTextFormat();

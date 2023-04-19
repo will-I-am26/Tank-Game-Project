@@ -122,6 +122,8 @@ namespace FinalProject
 
         public CanvasBitmap image;
 
+        public Rect rect { get; private set; }
+
         public Ball(int x, int y, int radius, CanvasBitmap image)
         {
             X = x;
@@ -137,7 +139,7 @@ namespace FinalProject
         }
 
         public void Update()
-        {
+        {            
             if (TravelingDownward)
             {
                 Y += Speed;
@@ -156,6 +158,7 @@ namespace FinalProject
             {
                 X += Speed;
             }
+            rect = new Rect(X, Y, 10, 10);
         }
 
         public void ChangeColorRandomly()
