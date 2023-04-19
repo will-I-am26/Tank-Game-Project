@@ -33,10 +33,10 @@ namespace FinalProject
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        
+
         void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-           
+
         }
         public MainPage()
         {
@@ -44,8 +44,6 @@ namespace FinalProject
 
             Window.Current.CoreWindow.KeyDown += Canvas_KeyDown;
             Window.Current.CoreWindow.KeyUp += Canvas_KeyUp;
-
-         
 
             Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(Windows.UI.ViewManagement.ApplicationViewBoundsMode.UseCoreWindow);
         }
@@ -78,16 +76,16 @@ namespace FinalProject
             tank.Draw(args.DrawingSession);
             tank2.Draw(args.DrawingSession);
             bullet.Draw(args.DrawingSession);
-            foreach(var wall in everyWall.GetWalls())
+            bullet2.Draw(args.DrawingSession);
+            foreach (var wall in everyWall.GetWalls())
             {
                 wall.Draw(args.DrawingSession);
             }
-            bullet2.Draw(args.DrawingSession);
             canvasScoreTextFormat.FontSize = 15;
             canvasScoreTextFormat.FontFamily = "cambria";
             args.DrawingSession.DrawText($"Player One's life: {tank.score}", 70, 10, Colors.Red, canvasScoreTextFormat);
             args.DrawingSession.DrawText($"Player Two's life: {tank2.score}", 600, 10, Colors.Red, canvasScoreTextFormat);
-           
+
         }
 
         public bool Intersects(Rect r1, Rect r2)
@@ -107,7 +105,7 @@ namespace FinalProject
         {
             foreach (var wall in everyWall.GetWalls())
             {
-                if(Intersects(wall.rect, tankRect))
+                if (Intersects(wall.rect, tankRect))
                 {
                     isCollides = true;
                     if ((int)reading.LeftThumbstickX < 0)
@@ -118,8 +116,7 @@ namespace FinalProject
                     else if ((int)reading.LeftThumbstickX > 0)
                     {//Right
                         tankObj.TravelingRightward = false;
-                        tankObj.X = wall.X0 - 25*wall.WIDTH;
-                        
+                        tankObj.X = wall.X0 - 25 * wall.WIDTH;
                     }
                     if ((int)reading.LeftThumbstickY > 0)
                     {//Up
@@ -140,15 +137,15 @@ namespace FinalProject
             tank2.Update();
             bullet.Update();
             bullet2.Update();
-           // tankOneScoreTextBlock.Text = $"Tank two's life: {tank2.score}";
+            // tankOneScoreTextBlock.Text = $"Tank two's life: {tank2.score}";
             //tankOneScoreTextBlock.Text = $"Tank one's life: {tank.score}";
 
             Rect tank1Rect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
             Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
             Rect bullet2Rect = new Rect(bullet2.X, bullet2.Y, 10, 10);
-                        
-            if(Intersects(bulletRect, tank2Rect))
+
+            if (Intersects(bulletRect, tank2Rect))
             {
                 isCollides = true;
                 tank2.score--;
@@ -261,10 +258,10 @@ namespace FinalProject
                             bullet.TravelingUpward = false;
                         }
                     }
-                    
+
                 }
             }
-            
+
             if (Gamepad.Gamepads.Count > 1)
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
@@ -307,7 +304,7 @@ namespace FinalProject
                 {
                     tank2.TravelingDownward = false;
                 }
-                
+
                 if (reading.RightTrigger > 0)
                 {
                     if (bullet2.X > 1200 || bullet2.X < 0 || bullet2.Y < 0 || bullet2.Y > 950)
@@ -371,7 +368,7 @@ namespace FinalProject
             bluetankimage3 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankTop.png");
             bluetankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankBottom.png");
 
-            tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
+            tank = new Tank(50, 300, 5, tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet = new Ball(2200, tank.Y, 5, ballImage);
 
@@ -384,7 +381,7 @@ namespace FinalProject
             //200->tank.Y ?
             canvasScoreTextFormat = new CanvasTextFormat();
         }
-    
+
 
         private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
         {
@@ -443,8 +440,6 @@ namespace FinalProject
                         bullet2.TravelingDownward = false;
                         bullet2.TravelingUpward = false;
                         bullet2.TravelingRightward = false;
-
-
                     }
                     if (tank2.image == tankimage3)
                     {
@@ -455,8 +450,6 @@ namespace FinalProject
                         bullet2.TravelingRightward = false;
                         bullet2.TravelingLeftward = false;
                         bullet2.TravelingDownward = false;
-
-
                     }
                     if (tank2.image == tankimage)
                     {
@@ -466,12 +459,8 @@ namespace FinalProject
                         bullet2.TravelingLeftward = false;
                         bullet2.TravelingDownward = false;
                         bullet2.TravelingUpward = false;
-
-
                     }
                 }
-
-
             }
             else if (e.VirtualKey == Windows.System.VirtualKey.Space)
             {
@@ -496,8 +485,6 @@ namespace FinalProject
                         bullet.TravelingDownward = false;
                         bullet.TravelingUpward = false;
                         bullet.TravelingRightward = false;
-
-
                     }
                     if (tank.image == tankimage3)
                     {
@@ -508,8 +495,6 @@ namespace FinalProject
                         bullet.TravelingRightward = false;
                         bullet.TravelingLeftward = false;
                         bullet.TravelingDownward = false;
-
-
                     }
                     if (tank.image == tankimage)
                     {
@@ -519,13 +504,9 @@ namespace FinalProject
                         bullet.TravelingLeftward = false;
                         bullet.TravelingDownward = false;
                         bullet.TravelingUpward = false;
-
-
                     }
                 }
-
             }
-
         }
 
         private void Canvas_KeyUp(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
