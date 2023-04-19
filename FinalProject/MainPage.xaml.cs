@@ -175,6 +175,7 @@ namespace FinalProject
                 tank2.Y += 5;
             }
 
+            // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
@@ -262,6 +263,7 @@ namespace FinalProject
                 }
             }
 
+            // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
             if (Gamepad.Gamepads.Count > 1)
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
@@ -355,6 +357,9 @@ namespace FinalProject
             args.TrackAsyncAction(CreateResources(sender).AsAsyncAction());
         }
 
+        // ball.jpg From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs 
+        // red tank from https://www.stockunlimited.com/vector-illustration/game-tank_1959541.html
+        //blue tank and the rotation of it are from image resizer, backgroung remover, and image flipper websites 
         async Task CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender)
         {
             tankimage = await CanvasBitmap.LoadAsync(sender, "Assets/redtankRight.png");

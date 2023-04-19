@@ -57,7 +57,7 @@ namespace FinalProject
             TravelingLeftward = false;
             TravelingRightward = false;
             TravelingUpward= false;
-            score = 5;
+            score = 20;
      
         }
 
@@ -86,6 +86,7 @@ namespace FinalProject
             }
         }
 
+        // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs
         public void Draw(CanvasDrawingSession canvas)
         {
             // when using image, account for x and y being top left
@@ -94,12 +95,14 @@ namespace FinalProject
 
     }
 
+    // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs
     public interface IDrawable
     {
         void Draw(CanvasDrawingSession canvas);
     }
 
-     public class Ball : IDrawable
+    // From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs but with few modification
+    public class Ball : IDrawable
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -168,6 +171,8 @@ namespace FinalProject
             canvas.FillEllipse(X, Y, Radius, Radius, Color);
         }
      }
+
+    //// From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs
     public interface ICollidable
     {
         bool CollidesLeftEdge(int x, int y, int speed);
@@ -175,6 +180,7 @@ namespace FinalProject
         bool CollidesTopEdge(int x, int y, int speed);
         bool CoolidesBottomEdge(int x, int y, int speed);
     }
+
     public class Wall : IDrawable, ICollidable
     {
         public int WIDTH = 5;
@@ -214,6 +220,7 @@ namespace FinalProject
             canvas.DrawLine(X0, Y0, X1, Y1, Color, WIDTH);
         }
 
+        // some of the line of code is From https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs
         public bool CollidesLeftEdge(int x, int y, int speed)
         {
             return Math.Abs(x - X0) - speed <= 0 && y >= Y0 && y <= Y1;

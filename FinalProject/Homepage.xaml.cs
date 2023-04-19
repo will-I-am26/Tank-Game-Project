@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas.UI.Xaml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,6 +47,11 @@ namespace FinalProject
             Frame rootFrame = Window.Current.Content as Frame;
 
             rootFrame.Navigate(typeof(Instruction));
+        }
+
+        void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        {
+
         }
     }
 }

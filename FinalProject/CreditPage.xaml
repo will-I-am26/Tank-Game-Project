@@ -11,9 +11,9 @@
     <Grid>
         <Button x:Name="HomeButtonCredit" Content="Homepage" Margin="411,449,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="HomeButtonCredit_Click"/>
         <TextBlock x:Name="creditTextBlock" HorizontalAlignment="Left" Margin="436,114,0,0" TextWrapping="Wrap" Text="Developers:" VerticalAlignment="Top"/>
-        <TextBlock x:Name="name1TextBlock" HorizontalAlignment="Left" Margin="443,162,0,0" TextWrapping="Wrap" Text="Jacob" VerticalAlignment="Top"/>
-        <TextBlock x:Name="name2Textblock" HorizontalAlignment="Left" Margin="443,212,0,0" TextWrapping="Wrap" Text="Nayef" VerticalAlignment="Top"/>
-        <TextBlock x:Name="name3TextBlock" HorizontalAlignment="Left" Margin="437,0,0,0" TextWrapping="Wrap" Text="Will" VerticalAlignment="Center"/>
+        <TextBlock x:Name="name1TextBlock" HorizontalAlignment="Left" Margin="437,153,0,0" TextWrapping="Wrap" Text="Jack" VerticalAlignment="Top" RenderTransformOrigin="-0.115,0.263"/>
+        <TextBlock x:Name="name2Textblock" HorizontalAlignment="Left" Margin="436,193,0,0" TextWrapping="Wrap" Text="Nayef" VerticalAlignment="Top"/>
+        <TextBlock x:Name="name3TextBlock" HorizontalAlignment="Left" Margin="436,242,0,0" TextWrapping="Wrap" Text="Will" VerticalAlignment="Top"/>
 
     </Grid>
 </Page>
