@@ -14,7 +14,7 @@
         <canvas:CanvasAnimatedControl x:Name="canvas" Draw="Canvas_Draw" Update="Canvas_Update" CreateResources="Canvas_CreateResources"  />
         <Rectangle x:Name="leftWallRect" HorizontalAlignment="Left" Height="490" Margin="46,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="15" Fill="#FFA49999"/>
         <Rectangle x:Name="rightwallRect" HorizontalAlignment="Left" Height="490" Margin="875,0,0,0" Stroke="Black" VerticalAlignment="Center" Width="15" Fill="#FFC0AFAF"/>
-        <Rectangle x:Name="topwallRect" HorizontalAlignment="Left" Height="15" Margin="47,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="840"/>
+        <Rectangle x:Name="topwallRect" HorizontalAlignment="Left" Height="15" Margin="47,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="840" Fill="#FFC0AFAF"/>
         <Rectangle x:Name="bottomwallRect" HorizontalAlignment="Left" Height="15" Margin="46,497,0,0" Stroke="Black" VerticalAlignment="Top" Width="835" Fill="#FFBDA8A8"/>
     </Grid>
 </Page>
