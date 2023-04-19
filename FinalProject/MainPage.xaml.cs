@@ -64,10 +64,11 @@ namespace FinalProject
         Ball bullet;
         Ball bullet2;
         bool isCollides = false;
-        Wall leftwall;
+        /*Wall leftwall;
         Wall rightwall;
         Wall bottomwall;
-        Wall topwall;
+        Wall topwall;*/
+        WallCollection everyWall;
         private Gamepad controller;
         private Gamepad controller2;
         CanvasTextFormat canvasScoreTextFormat;
@@ -77,10 +78,10 @@ namespace FinalProject
             tank.Draw(args.DrawingSession);
             tank2.Draw(args.DrawingSession);
             bullet.Draw(args.DrawingSession);
-            leftwall.Draw(args.DrawingSession);
-            rightwall.Draw(args.DrawingSession);
-            bottomwall.Draw(args.DrawingSession);
-            topwall.Draw(args.DrawingSession);
+            foreach(var wall in everyWall.GetWalls())
+            {
+                wall.Draw(args.DrawingSession);
+            }
             bullet2.Draw(args.DrawingSession);
             canvasScoreTextFormat.FontSize = 15;
             canvasScoreTextFormat.FontFamily = "cambria";
@@ -102,38 +103,36 @@ namespace FinalProject
             }
 
         }
-        public void HandleCollision(Tank tankObj, Rect tankRect, Rect leftwallRect, Rect rightwallRect1, Rect bottomwallRect1, Rect topwallRect1, Rect bulletRect)
+        public void HandleCollision(Tank tankObj, Rect tankRect, Rect bulletRect, GamepadReading reading)
         {
-            
-            if (Intersects(leftwallRect, tankRect))
+            foreach (var wall in everyWall.GetWalls())
             {
-                isCollides = true;
-                tankObj.TravelingLeftward = false;
-                tankObj.X = leftwall.X0 + leftwall.WIDTH;
-
+                if(Intersects(wall.rect, tankRect))
+                {
+                    isCollides = true;
+                    if ((int)reading.LeftThumbstickX < 0)
+                    {//Left
+                        tankObj.TravelingLeftward = false;
+                        tankObj.X = wall.X0 + wall.WIDTH;
+                    }
+                    else if ((int)reading.LeftThumbstickX > 0)
+                    {//Right
+                        tankObj.TravelingRightward = false;
+                        tankObj.X = wall.X0 - 25*wall.WIDTH;
+                        
+                    }
+                    if ((int)reading.LeftThumbstickY > 0)
+                    {//Up
+                        tankObj.TravelingUpward = false;
+                        tankObj.Y = wall.Y0 + wall.WIDTH;
+                    }
+                    else if ((int)reading.LeftThumbstickY < 0)
+                    {//Down
+                        tankObj.TravelingDownward = false;
+                        tankObj.Y = wall.Y0 - 25 * wall.WIDTH;
+                    }
+                }
             }
-            else if (Intersects(rightwallRect1, tankRect))
-            {
-                isCollides = true;
-                tankObj.TravelingRightward = false;
-                tankObj.X=rightwall.X0 - 22*rightwall.WIDTH;
-            }
-            if (Intersects(bottomwallRect1, tankRect))
-            {
-                isCollides = true;
-                tankObj.TravelingDownward= false;
-                //tankObj.Y = bottomwall.Y1 - 100*bottomwall.WIDTH;
-                
-                tankObj.Y = bottomwall.Y0 - 22 * bottomwall.WIDTH;
-                
-            }
-            else if (Intersects(topwallRect1, tankRect))
-            {
-                isCollides = true;
-                tankObj.TravelingUpward = false;
-                tankObj.Y = topwall.Y0 +topwall.WIDTH;
-            }
-
         }
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
@@ -144,21 +143,11 @@ namespace FinalProject
            // tankOneScoreTextBlock.Text = $"Tank two's life: {tank2.score}";
             //tankOneScoreTextBlock.Text = $"Tank one's life: {tank.score}";
 
-            Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
-            Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
-            Rect bottomwallrect = new Rect(new Point(bottomwall.X0,bottomwall.Y0), new Point(bottomwall.X1,bottomwall.Y1));
-            
-            Rect topwallrect = new Rect(new Point(topwall.X0, topwall.Y0), new Point(topwall.X1, topwall.Y1));
             Rect tank1Rect = new Rect(new Point(tank.X, tank.Y), tank.image.Size);
             Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
             Rect bulletRect = new Rect(bullet.X, bullet.Y, 10, 10);
             Rect bullet2Rect = new Rect(bullet2.X, bullet2.Y, 10, 10);
-            HandleCollision(tank,tank1Rect,leftwallrect,rightwallrect,bottomwallrect,topwallrect,bulletRect);
-            HandleCollision(tank2,tank2Rect, leftwallrect, rightwallrect, bottomwallrect, topwallrect, bulletRect);
-
-
-
-            
+                        
             if(Intersects(bulletRect, tank2Rect))
             {
                 isCollides = true;
@@ -189,11 +178,12 @@ namespace FinalProject
                 tank2.Y += 5;
             }
 
-
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
                 var reading = controller.GetCurrentReading();
+
+                HandleCollision(tank, tank1Rect, bulletRect, reading);
 
                 tank.X += (int)(reading.LeftThumbstickX * 5);
                 tank.Y += (int)(reading.LeftThumbstickY * -5);
@@ -275,10 +265,12 @@ namespace FinalProject
                 }
             }
             
-            if (Gamepad.Gamepads.Count > 0)
+            if (Gamepad.Gamepads.Count > 1)
             {
                 controller2 = Gamepad.Gamepads.ElementAt(1);
                 var reading = controller2.GetCurrentReading();
+
+                HandleCollision(tank2, tank1Rect, bulletRect, reading);
 
                 tank2.X += (int)(reading.LeftThumbstickX * 5);
                 tank2.Y += (int)(reading.LeftThumbstickY * -5);
@@ -382,11 +374,14 @@ namespace FinalProject
             tank = new Tank(50,300,5,tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet = new Ball(2200, tank.Y, 5, ballImage);
-            leftwall = new Wall(20, 10, 20, 750, Colors.CornflowerBlue);
-            rightwall = new Wall(930, 10, 930, 520, Colors.CornflowerBlue);
-            topwall = new Wall(20, 10, 1510, 10, Colors.CornflowerBlue);
-            bottomwall = new Wall(20, 520, 930, 520, Colors.CornflowerBlue);
+
+            everyWall = new WallCollection();
+            everyWall.Add(new Wall(20, 10, 20, 750, Colors.CornflowerBlue));    //left
+            everyWall.Add(new Wall(930, 10, 930, 520, Colors.CornflowerBlue));  //right
+            everyWall.Add(new Wall(20, 10, 1510, 10, Colors.CornflowerBlue));   //top
+            everyWall.Add(new Wall(20, 520, 930, 520, Colors.CornflowerBlue));  //bottom
             bullet2 = new Ball(2200, 200, 5, ballImage);
+            //200->tank.Y ?
             canvasScoreTextFormat = new CanvasTextFormat();
         }
     

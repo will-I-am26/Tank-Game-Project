@@ -186,6 +186,8 @@ namespace FinalProject
 
         public Color Color { get; set; }
 
+        public Rect rect { get; private set; }
+
         public Wall(int x0, int y0, int x1, int y1, Color color)
         {
             X0 = x0;
@@ -193,6 +195,7 @@ namespace FinalProject
             X1 = x1;
             Y1 = y1;
             Color = color;
+            rect = new Rect(X0, Y0, WIDTH, Y1 - Y0);   //Create a rect class (for collision) automatically
         }
 
 
@@ -222,6 +225,32 @@ namespace FinalProject
         }
     }
 
+    public class WallCollection
+    {
+        List<Wall> walls = new List<Wall>();
+        ///List<Rect> rects = new List<Rect>();
+
+        public List<Wall> GetWalls()
+        {
+            return walls;
+        }
+        /*public List<Rect> GetRects()
+        {
+            return rects;
+        }*/
+        public void Add(Wall wall)
+        {
+            walls.Add(wall);
+            /*rects.Add(new Rect(wall.X0, wall.Y0, wall.WIDTH, wall.Y1 - wall.Y0));
+           
+            Rect leftwallrect = new Rect(leftwall.X0, leftwall.Y0, leftwall.WIDTH, leftwall.Y1 - leftwall.Y0);
+            Rect rightwallrect = new Rect(rightwall.X0, rightwall.Y0, rightwall.WIDTH, rightwall.Y1 - rightwall.Y0);
+            Rect bottomwallrect = new Rect(new Point(bottomwall.X0, bottomwall.Y0), new Point(bottomwall.X1, bottomwall.Y1));
+            Rect topwallrect = new Rect(new Point(topwall.X0, topwall.Y0), new Point(topwall.X1, topwall.Y1));
+            */
+        }
+
+    }
 
 
 }
