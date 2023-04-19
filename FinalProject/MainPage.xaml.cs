@@ -200,12 +200,14 @@ namespace FinalProject
 
             if (tank1.score <= 0 || tank2.score <= 0)
             {
-                if (tank1.score <= 0)
+                if (tank1.score < 0)
                 {
+                    tank1.score = 0;
                     showUpdateMessage2();
                 }
-                else if (tank2.score <= 0)
+                else if (tank2.score < 0)
                 {
+                    tank2.score = 0;
                     showUpdateMessage();
                 }
             }
@@ -343,6 +345,7 @@ namespace FinalProject
                 }
 
             }
+
         }
 
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
