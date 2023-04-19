@@ -13,6 +13,7 @@
         <TextBlock x:Name="ThumbStickTextBlock" HorizontalAlignment="Left" Margin="152,131,0,0" TextWrapping="Wrap" Text="Left Thumbstick: Moves tank" VerticalAlignment="Top" FontSize="22"/>
         <TextBlock HorizontalAlignment="Left" Margin="152,182,0,0" TextWrapping="Wrap" Text="Right Trigger: Shoot Bullets" VerticalAlignment="Top" RenderTransformOrigin="0.207,0.132" FontSize="22"/>
         <TextBlock HorizontalAlignment="Center" Margin="0,65,0,0" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" RenderTransformOrigin="0.44,1.158" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="152,251,0,0" TextWrapping="Wrap" Text="B Button: Closes game" VerticalAlignment="Top" FontSize="22"/>
 
     </Grid>
 </Page>
