@@ -143,12 +143,12 @@
     <Content Include="Assets\ball.jpg" />
     <Content Include="Assets\bluetankBottom.png" />
     <Content Include="Assets\bluetankLeft.png" />
-    <Content Include="Assets\bluetankTop.png" />
     <Content Include="Assets\bluetankRight.png" />
+    <Content Include="Assets\bluetankTop.png" />
     <Content Include="Assets\redtankBottom.png" />
     <Content Include="Assets\redtankLeft.png" />
-    <Content Include="Assets\redtankTop.png" />
     <Content Include="Assets\redtankRight.png" />
+    <Content Include="Assets\redtankTop.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />

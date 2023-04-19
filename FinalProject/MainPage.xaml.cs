@@ -217,7 +217,7 @@ namespace FinalProject
 
             if (Gamepad.Gamepads.Count > 1)
             {
-                UpdatePlayer(0, tank2, tank2Rect, bullet2);
+                UpdatePlayer(1, tank2, tank2Rect, bullet2);
             }
 
         }

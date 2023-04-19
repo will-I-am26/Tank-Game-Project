@@ -17,6 +17,17 @@
         <Button x:Name="PlaygameButton" Content="Play game!" Margin="148,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="PlaygameButton_Click" Width="106"/>
         <Button x:Name="InstructionButton" Content="Instruction" Margin="414,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontWeight="Bold" FontSize="18" Click="InstructionButton_Click"/>
         <Button x:Name="CreditButton" Content="Credits" Margin="704,370,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="CreditButton_Click"/>
+        <TextBlock x:Name="titleTextBlock" HorizontalAlignment="Left" Margin="383,103,0,0" TextWrapping="Wrap" Text="Tank Game" VerticalAlignment="Top" RenderTransformOrigin="1.973,0.365" FontSize="36"/>
+        <Image x:Name="mainPageTank" HorizontalAlignment="Left" Height="100" Margin="309,145,0,0" VerticalAlignment="Top" Width="100" Source="/Assets/redtankRight.png" Stretch="None" IsTapEnabled="False" IsRightTapEnabled="False" IsHoldingEnabled="False" IsDoubleTapEnabled="False" RenderTransformOrigin="1.046,0.578" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Image.RenderTransform>
+                <CompositeTransform Rotation="375.872" TranslateX="-4.218" TranslateY="14.63"/>
+            </Image.RenderTransform>
+        </Image>
+        <Image HorizontalAlignment="Left" Height="97" Margin="571,151,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.122,0.482" Source="/Assets/bluetankLeft.png" Stretch="None" UseLayoutRounding="False" d:LayoutRounding="Auto">
+            <Image.RenderTransform>
+                <CompositeTransform Rotation="-7.527" TranslateX="-0.023" TranslateY="2.874"/>
+            </Image.RenderTransform>
+        </Image>
 
     </Grid>
 </Page>
