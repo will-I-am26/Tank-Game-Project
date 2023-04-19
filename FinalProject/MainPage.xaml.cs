@@ -390,9 +390,9 @@ namespace FinalProject
             bullet1 = new Ball(2200, tank1.Y, 5, ballImage);
 
             everyWall = new WallCollection();
-            everyWall.Add(new Wall(20, 10, 20, 750, Colors.Red));    //left
+            everyWall.Add(new Wall(20, 10, 20, 520, Colors.Red));    //left
             everyWall.Add(new Wall(930, 10, 930, 520, Colors.Red));  //right
-            everyWall.Add(new Wall(20, 10, 1510, 10, Colors.Red));   //top
+            everyWall.Add(new Wall(20, 10, 930, 10, Colors.Red));   //top
             everyWall.Add(new Wall(20, 520, 930, 520, Colors.Red));  //bottom
             bullet2 = new Ball(2200, 200, 5, ballImage);
             //200->tank.Y ?

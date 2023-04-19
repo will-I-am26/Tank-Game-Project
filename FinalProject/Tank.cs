@@ -189,7 +189,7 @@ namespace FinalProject
         public int X1 { get; set; }
 
         public int Y1 { get; set; }
-        public bool horizontal { get; set; }
+        public bool horizontal { get; set; } = false;
 
         public Color Color { get; set; }
 
@@ -203,17 +203,25 @@ namespace FinalProject
             Y1 = y1;
             Color = color;
 
-            //Create a rect class (for collision) automatically:
-            if (x0 != x1)    //wide
+            //wide
+            if (x0 != x1)
             {
-                rect = new Rect(new Point(x0, y0), new Point(x1, y1));
-                horizontal = false;
+                Y1 += WIDTH;
             }
-            else            //tall
-            {//TODO remove?
-                rect = new Rect(X0, Y0, WIDTH, Y1 - Y0);
-                horizontal = true;
-            }             
+            else
+            {
+                X1 += WIDTH;
+            }
+
+
+            //Create a rect class (for collision) automatically:
+            rect = new Rect(X0, Y0, X1 - X0, Y1 - Y0);
+
+            ///rect = new Rect(new Point(x0, y0), new Point(x1, y1));
+            ///horizontal = false;
+            ///rect = new Rect(X0, Y0, WIDTH, Y1 - Y0);
+
+            ///horizontal = true;
         }
 
 
