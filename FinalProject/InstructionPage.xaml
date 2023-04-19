@@ -6,11 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="CornflowerBlue">
 
     <Grid>
         <Button x:Name="InstructionHomeButton" Content="Homepage" Margin="431,420,0,0" VerticalAlignment="Top" FontFamily="Cambria" FontSize="18" FontWeight="Bold" Click="InstructionHomeButton_Click"/>
-        <TextBlock HorizontalAlignment="Left" Margin="267,221,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+        <TextBlock x:Name="ThumbStickTextBlock" HorizontalAlignment="Left" Margin="152,131,0,0" TextWrapping="Wrap" Text="Left Thumbstick: Moves tank" VerticalAlignment="Top" FontSize="22"/>
+        <TextBlock HorizontalAlignment="Left" Margin="152,182,0,0" TextWrapping="Wrap" Text="Right Trigger: Shoot Bullets" VerticalAlignment="Top" RenderTransformOrigin="0.207,0.132" FontSize="22"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,65,0,0" TextWrapping="Wrap" Text="Instructions" VerticalAlignment="Top" RenderTransformOrigin="0.44,1.158" FontSize="36"/>
 
     </Grid>
 </Page>
