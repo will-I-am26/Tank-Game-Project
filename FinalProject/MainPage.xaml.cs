@@ -390,20 +390,26 @@ namespace FinalProject
             tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet1 = new Ball(2200, tank1.Y, 5, ballImage);
 
-            everyWall = new WallCollection();
-            everyWall.Add(new Wall(leftB, topB, leftB, bottomB, Colors.Red));    //left
-            everyWall.Add(new Wall(rightB, topB, rightB, bottomB, Colors.Red));  //right
-            everyWall.Add(new Wall(leftB, topB, rightB, topB, Colors.Red));   //top
-            everyWall.Add(new Wall(leftB, bottomB, rightB + 10, bottomB, Colors.Red));  //bottom
-            everyWall.Add(new Wall(300, 100, 300, 400, Colors.Red));  //bottom
             bullet2 = new Ball(2200, 200, 5, ballImage);
             //200->tank.Y ?
+            await CreateWalls();
             canvasScoreTextFormat = new CanvasTextFormat();
 
             timer.Tick += BulletTimerEventP1;
             timer.Tick += BulletTimerEventP2;
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Start();
+        }
+        async Task CreateWalls()
+        {
+            everyWall = new WallCollection();
+            //Boundaries
+            everyWall.Add(new Wall(leftB, topB, leftB, bottomB, Colors.Red));    //left
+            everyWall.Add(new Wall(rightB, topB, rightB, bottomB, Colors.Red));  //right
+            everyWall.Add(new Wall(leftB, topB, rightB, topB, Colors.Red));   //top
+            everyWall.Add(new Wall(leftB, bottomB, rightB + 10, bottomB, Colors.Red));  //bottom
+            //Inner walls
+            everyWall.Add(new Wall(300, 100, 300, 400, Colors.Red));
         }
 
         private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
