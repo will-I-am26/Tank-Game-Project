@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml.Shapes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -75,6 +76,7 @@ namespace FinalProject
         private Gamepad controller2;
         CanvasTextFormat canvasScoreTextFormat;
         DispatcherTimer timer = new DispatcherTimer();
+        //SoundPlayer player = new SoundPlayer(path);
         bool gameUnlocked = true;
 
         const int topB = 30, bottomB = 520, leftB = 20, rightB = 930;
@@ -116,8 +118,6 @@ namespace FinalProject
                 //stop tank from moving
                 if (Intersects(wall.rect, tankRect))
                 {
-                    isCollides = true;
-
                     ///if (wall.horizontal)
                     if ((float)reading.LeftThumbstickX < 0) //Float, not int. Otherwise the value from -1 to 1 will be truncated
                     {//Left
@@ -386,8 +386,8 @@ namespace FinalProject
             bluetankimage4 = await CanvasBitmap.LoadAsync(sender, "Assets/bluetankBottom.png");
 
             ballImage = await CanvasBitmap.LoadAsync(sender, "Assets/ball.jpg");
-            tank1 = new Tank(50, 300, 5, tankimage, tankimage2, tankimage, tankimage3, tankimage4);
-            tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
+            tank1 = new Tank(50, 50, 5, tankimage, tankimage2, tankimage, tankimage3, tankimage4);
+            tank2 = new Tank(850, 510 - 60, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet1 = new Ball(2200, tank1.Y, 5, ballImage);
 
             bullet2 = new Ball(2200, 200, 5, ballImage);
@@ -402,14 +402,21 @@ namespace FinalProject
         }
         async Task CreateWalls()
         {
+            Color tan = Color.FromArgb(255, 236, 141, 147);
             everyWall = new WallCollection();
             //Boundaries
-            everyWall.Add(new Wall(leftB, topB, leftB, bottomB, Colors.Red));    //left
-            everyWall.Add(new Wall(rightB, topB, rightB, bottomB, Colors.Red));  //right
-            everyWall.Add(new Wall(leftB, topB, rightB, topB, Colors.Red));   //top
-            everyWall.Add(new Wall(leftB, bottomB, rightB + 10, bottomB, Colors.Red));  //bottom
+            everyWall.Add(new Wall(leftB, topB, leftB, bottomB, tan));    //left
+            everyWall.Add(new Wall(rightB, topB, rightB, bottomB, tan));  //right
+            everyWall.Add(new Wall(leftB, topB, rightB, topB, tan));   //top
+            everyWall.Add(new Wall(leftB, bottomB, rightB + 10, bottomB, tan));  //bottom
             //Inner walls
-            everyWall.Add(new Wall(300, 100, 300, 400, Colors.Red));
+            everyWall.Add(new Wall(leftB + 200, topB+10 + 70, leftB + 200, topB+10 + 175, tan));    //vertical
+            everyWall.Add(new Wall(leftB + 75, bottomB - 75, leftB + 160, bottomB - 75, tan));      //horizontal
+
+            everyWall.Add(new Wall(rightB - 200, bottomB - 175, rightB - 200,  bottomB - 70, tan));    //vertical
+            everyWall.Add(new Wall(rightB - 160, topB + 75,  rightB - 75, topB + 75, tan));      //horizontal
+
+            everyWall.Add(new Wall((rightB - leftB) / 2, topB + 90, (rightB - leftB) / 2, bottomB - 90, tan));    //vertical
         }
 
         private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
