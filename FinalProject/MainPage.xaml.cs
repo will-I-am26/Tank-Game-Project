@@ -308,8 +308,8 @@ namespace FinalProject
                 {
                     if (tank.direction.down)
                     {
-                        bullet.X = tank.X + 50;
-                        bullet.Y = tank.Y + 65;
+                        bullet.X = tank.X + 32;
+                        bullet.Y = tank.Y + 47;
                         bullet.TravelingDownward = true;
                         bullet.TravelingLeftward = false;
                         bullet.TravelingUpward = false;
@@ -317,8 +317,8 @@ namespace FinalProject
                     }
                     if (tank.direction.left)
                     {
-                        bullet.X = tank.X + 10;
-                        bullet.Y = tank.Y + 34;
+                        bullet.X = tank.X + 2;
+                        bullet.Y = tank.Y + 17;
                         bullet.TravelingLeftward = true;
                         bullet.TravelingDownward = false;
                         bullet.TravelingUpward = false;
@@ -326,8 +326,8 @@ namespace FinalProject
                     }
                     if (tank.direction.up)
                     {
-                        bullet.X = tank.X + 32;
-                        bullet.Y = tank.Y + 15;
+                        bullet.X = tank.X + 17;
+                        bullet.Y = tank.Y + 2;
                         bullet.TravelingUpward = true;
                         bullet.TravelingRightward = false;
                         bullet.TravelingLeftward = false;
@@ -335,8 +335,8 @@ namespace FinalProject
                     }
                     if (tank.direction.right)
                     {
-                        bullet.X = tank.X + 80;
-                        bullet.Y = tank.Y + 30;
+                        bullet.X = tank.X + 46;
+                        bullet.Y = tank.Y + 17;
                         bullet.TravelingRightward = true;
                         bullet.TravelingLeftward = false;
                         bullet.TravelingDownward = false;
