@@ -182,9 +182,9 @@ namespace FinalProject
     public interface ICollidable
     {
         bool CollidesLeftEdge(int x, int y, int speed);
-        bool ColllidesRightEdge(int x, int y, int speed);
+        bool CollidesRightEdge(int x, int y, int speed);
         bool CollidesTopEdge(int x, int y, int speed);
-        bool CoolidesBottomEdge(int x, int y, int speed);
+        bool CollidesBottomEdge(int x, int y, int speed);
     }
 
     public class Wall : IDrawable, ICollidable
@@ -247,7 +247,7 @@ namespace FinalProject
             return Math.Abs(x - X0) - speed <= 0 && y >= Y0 && y <= Y1;
         }
 
-        public bool ColllidesRightEdge(int x, int y, int speed)
+        public bool CollidesRightEdge(int x, int y, int speed)
         {
             return Math.Abs(x - (X0 + width)) - speed <= 0 && y >= Y0 && y <= Y1;
         }
@@ -257,7 +257,7 @@ namespace FinalProject
             return x >= X0 && x <= X1 && y + speed >= Y1;
         }
 
-        public bool CoolidesBottomEdge(int x, int y, int speed)
+        public bool CollidesBottomEdge(int x, int y, int speed)
         {
             return x >= X0 && x <= X1 && y - speed <= Y0 + width;
         }

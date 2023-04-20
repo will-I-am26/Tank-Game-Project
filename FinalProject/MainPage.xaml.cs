@@ -74,6 +74,8 @@ namespace FinalProject
         private Gamepad controller;
         private Gamepad controller2;
         CanvasTextFormat canvasScoreTextFormat;
+        DispatcherTimer timer = new DispatcherTimer();
+        bool gameUnlocked = true;
 
         const int topB = 30, bottomB = 520, leftB = 20, rightB = 930;
         const double changeDirMagn = 0.7;
@@ -107,7 +109,7 @@ namespace FinalProject
             }
 
         }
-        public void HandleCollision(Tank tankObj, Rect tankRect, Ball bullet, GamepadReading reading, (int X, int Y) originalPos)
+        public GamepadReading HandleCollision(Tank tankObj, Rect tankRect, Ball bullet, GamepadReading reading, (int X, int Y) originalPos)
         {
             foreach (var wall in everyWall.GetWalls())
             {
@@ -117,27 +119,31 @@ namespace FinalProject
                     isCollides = true;
 
                     ///if (wall.horizontal)
-                        if ((float)reading.LeftThumbstickX < 0) //Float, not int. Otherwise the value from -1 to 1 will be truncated
-                        {//Left
-                            tankObj.TravelingLeftward = false;
-                            tankObj.X = originalPos.X + 3;
-                        }
-                        else if ((float)reading.LeftThumbstickX > 0)
-                        {//Right
-                            tankObj.TravelingRightward = false;
-                            tankObj.X = originalPos.X - 3;
-                        }
+                    if ((float)reading.LeftThumbstickX < 0) //Float, not int. Otherwise the value from -1 to 1 will be truncated
+                    {//Left
+                        tankObj.TravelingLeftward = false;
+                        ///tankObj.X = originalPos.X + 3;
+                        reading.LeftThumbstickX = 1;
+                    }
+                    else if ((float)reading.LeftThumbstickX > 0)
+                    {//Right
+                        tankObj.TravelingRightward = false;
+                        ///tankObj.X = originalPos.X - 3;
+                        reading.LeftThumbstickX = -1;
+                    }
                     ///else
-                        if ((float)reading.LeftThumbstickY > 0)
-                        {//Up
-                            tankObj.TravelingUpward = false;
-                            tankObj.Y = originalPos.Y + 3;
-                        }
-                        else if ((float)reading.LeftThumbstickY < 0)
-                        {//Down
-                            tankObj.TravelingDownward = false;
-                            tankObj.Y = originalPos.Y - 3;
-                        }
+                    if ((float)reading.LeftThumbstickY > 0)
+                    {//Up
+                        tankObj.TravelingUpward = false;
+                        ///tankObj.Y = originalPos.Y + 3;
+                        reading.LeftThumbstickY = -1;
+                    }
+                    else if ((float)reading.LeftThumbstickY < 0)
+                    {//Down
+                        tankObj.TravelingDownward = false;
+                        ///tankObj.Y = originalPos.Y - 3;
+                        reading.LeftThumbstickY = 1;
+                    }
                 }
                 //destroy bullet
                 if (Intersects(wall.rect, bullet.rect))
@@ -149,11 +155,13 @@ namespace FinalProject
                     bullet.TravelingDownward = false;
                 }
             }
+            return reading;
         }
 
         //based on https://stackoverflow.com/questions/33414268/show-messagedialog-from-app-xaml-cs-in-windows-store-app with some modification
         public async void showUpdateMessage()
         {
+            gameUnlocked = false;
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
@@ -162,14 +170,15 @@ namespace FinalProject
                 dialogMsg.Commands.Add(HomeButton);
                 HomeButton.Invoked = dialogButtonHandler;
                 dialogMsg.ShowAsync();
-                
-               
+
+
             });
         }
 
         //based on https://stackoverflow.com/questions/33414268/show-messagedialog-from-app-xaml-cs-in-windows-store-app with some modification
         public async void showUpdateMessage2()
         {
+            gameUnlocked = false;
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
@@ -178,7 +187,7 @@ namespace FinalProject
                 dialogMsg.Commands.Add(HomeButton);
                 HomeButton.Invoked = dialogButtonHandler;
                 dialogMsg.ShowAsync();
-               
+
             });
         }
 
@@ -192,67 +201,68 @@ namespace FinalProject
         }
         private async void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            bullet1.Update();
-            bullet2.Update();
-
-            Rect tank1Rect = new Rect(new Point(tank1.X, tank1.Y), tank1.image.Size);
-            Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
-
-            if (tank1.score <= 0 || tank2.score <= 0)
+            if (gameUnlocked)
             {
-                if (tank1.score < 0)
+                bullet1.Update();
+                bullet2.Update();
+
+                Rect tank1Rect = new Rect(new Point(tank1.X, tank1.Y), tank1.image.Size);
+                Rect tank2Rect = new Rect(new Point(tank2.X, tank2.Y), tank2.image.Size);
+
+                if (tank1.score <= 0 || tank2.score <= 0)
                 {
-                    tank1.score = 0;
-                    showUpdateMessage2();
+                    if (tank1.score <= 0)
+                    {
+                        tank1.score = 0;
+                        showUpdateMessage2();
+                    }
+                    else if (tank2.score <= 0)
+                    {
+                        tank2.score = 0;
+                        showUpdateMessage();
+                    }
                 }
-                else if (tank2.score < 0)
+
+                if (Intersects(bullet1.rect, tank2Rect))
                 {
-                    tank2.score = 0;
-                    showUpdateMessage();
+                    isCollides = true;
+                    tank2.score--;
+                    bullet1.X = 1920;
+                    bullet1.TravelingLeftward = false;
+                    bullet1.TravelingRightward = false;
+                    bullet1.TravelingUpward = false;
+                    bullet1.TravelingDownward = false;
+                }
+
+                if (Intersects(bullet2.rect, tank1Rect))
+                {
+                    isCollides = true;
+                    tank1.score--;
+                    bullet2.X = 2000;
+                    bullet2.TravelingLeftward = false;
+                    bullet2.TravelingRightward = false;
+                    bullet2.TravelingUpward = false;
+                    bullet2.TravelingDownward = false;
+                }
+
+                if (Intersects(tank1Rect, tank2Rect))
+                {
+                    tank1.X -= 5;
+                    tank2.X += 5;
+                    tank1.Y -= 5;
+                    tank2.Y += 5;
+                }
+
+                if (Gamepad.Gamepads.Count > 0)
+                {
+                    UpdatePlayer(0, tank1, tank1Rect, bullet1);
+                }
+
+                if (Gamepad.Gamepads.Count > 1)
+                {
+                    UpdatePlayer(1, tank2, tank2Rect, bullet2);
                 }
             }
-
-
-            if (Intersects(bullet1.rect, tank2Rect))
-            {
-                isCollides = true;
-                tank2.score--;
-                bullet1.X = 1920;
-                bullet1.TravelingLeftward = false;
-                bullet1.TravelingRightward = false;
-                bullet1.TravelingUpward = false;
-                bullet1.TravelingDownward = false;
-            }
-
-            if (Intersects(bullet2.rect, tank1Rect))
-            {
-                isCollides = true;
-                tank1.score--;
-                bullet2.X = 2000;
-                bullet2.TravelingLeftward = false;
-                bullet2.TravelingRightward = false;
-                bullet2.TravelingUpward = false;
-                bullet2.TravelingDownward = false;
-            }
-
-            if (Intersects(tank1Rect, tank2Rect))
-            {
-                tank1.X -= 5;
-                tank2.X += 5;
-                tank1.Y -= 5;
-                tank2.Y += 5;
-            }
-
-            if (Gamepad.Gamepads.Count > 0)
-            {
-                UpdatePlayer(0, tank1, tank1Rect, bullet1);
-            }
-
-            if (Gamepad.Gamepads.Count > 1)
-            {
-                UpdatePlayer(1, tank2, tank2Rect, bullet2);
-            }
-
         }
 
         // Based on: https://github.com/EricCharnesky/CIS297-Winter2023/blob/main/XAMLAnimatedCanvasPong/XAMLAnimatedCanvasPong/Pong.cs with some modification
@@ -262,10 +272,14 @@ namespace FinalProject
             var reading = controller.GetCurrentReading();
 
             (int X, int Y) originalPos = (tank.X, tank.Y);
+            reading = HandleCollision(tank, tankRect, bullet, reading, originalPos);
             tank.X += (int)(reading.LeftThumbstickX * 5);
             tank.Y += (int)(reading.LeftThumbstickY * -5);
 
-            HandleCollision(tank, tankRect, bullet, reading, originalPos);
+            if(tank.X < leftB) { tank.X = leftB + 20; }
+            else if(tank.X > rightB) { tank.X = rightB - 20; }
+            if(tank.Y > bottomB) { tank.Y = bottomB - 20; }
+            else if(tank.Y < topB) { tank.Y = topB + 20; }
 
             tank.Update();
 
@@ -301,9 +315,12 @@ namespace FinalProject
             {
                 tank.TravelingDownward = false;
             }
-            if (reading.RightTrigger > 0)
+
+        }
+        private void BulletTimerEvent(int id, Tank tank, Ball bullet)
+        {
+            if (gameUnlocked && Gamepad.Gamepads.Count - 1 >= id && Gamepad.Gamepads.ElementAt(id).GetCurrentReading().RightTrigger > 0)
             {
-                //names - bulletYours & bulletEnemy
                 if (bullet.X > rightB || bullet.X < leftB || bullet.Y < topB || bullet.Y > bottomB)
                 {
                     if (tank.direction.down)
@@ -343,10 +360,10 @@ namespace FinalProject
                         bullet.TravelingUpward = false;
                     }
                 }
-
             }
-
         }
+        private void BulletTimerEventP1(object sender, object e) => BulletTimerEvent(0, tank1, bullet1);
+        private void BulletTimerEventP2(object sender, object e) => BulletTimerEvent(1, tank2, bullet2);
 
         private void Canvas_CreateResources(CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
         {
@@ -372,7 +389,7 @@ namespace FinalProject
             tank1 = new Tank(50, 300, 5, tankimage, tankimage2, tankimage, tankimage3, tankimage4);
             tank2 = new Tank(500, 300, 5, bluetankimage2, bluetankimage2, bluetankimage, bluetankimage3, bluetankimage4);
             bullet1 = new Ball(2200, tank1.Y, 5, ballImage);
-            
+
             everyWall = new WallCollection();
             everyWall.Add(new Wall(leftB, topB, leftB, bottomB, Colors.Red));    //left
             everyWall.Add(new Wall(rightB, topB, rightB, bottomB, Colors.Red));  //right
@@ -382,9 +399,12 @@ namespace FinalProject
             bullet2 = new Ball(2200, 200, 5, ballImage);
             //200->tank.Y ?
             canvasScoreTextFormat = new CanvasTextFormat();
-            
-        }
 
+            timer.Tick += BulletTimerEventP1;
+            timer.Tick += BulletTimerEventP2;
+            timer.Interval = TimeSpan.FromMilliseconds(100);
+            timer.Start();
+        }
 
         private void Canvas_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs e)
         {
